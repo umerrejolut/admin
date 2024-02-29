@@ -16,7 +16,7 @@ function Home() {
     submitButton: t('Submit'),
     englishOption: t('English'),
     frenchOption: t('French'),
-    spanishOption: t('Spanish')
+    spanishOption: t('Spanish'),
   };
 
   function handleClick(lang: string) {
@@ -24,85 +24,80 @@ function Home() {
     i18n.changeLanguage(lang);
   }
   return (
-    <div className='flex flex-col justify-center items-center h-full'>
+    <div className="flex h-full flex-col items-center justify-center">
       <h1>{texts.title}</h1>
-      <Input icon={<SearchIcon />} className='bg-[#24282C] border-none active:border-none text-primary-foreground pl-12' placeholder={texts.searchPlaceholder} type='search' ></Input>
+      <Input
+        icon={<SearchIcon />}
+        className="border-none bg-[#24282C] pl-12 text-primary-foreground active:border-none"
+        placeholder={texts.searchPlaceholder}
+        type="search"
+      ></Input>
       <br />
       <label htmlFor="language-select">{texts.languageLabel}</label>
-      <select id="language-select" onChange={(e) => handleClick(e.target.value)} value={selectedLanguage}>
+      <select
+        id="language-select"
+        onChange={e => handleClick(e.target.value)}
+        value={selectedLanguage}
+      >
         <option value="en">{texts.englishOption}</option>
         <option value="fr">{texts.frenchOption}</option>
         <option value="es">{texts.spanishOption}</option>
       </select>
       <br />
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" >
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon">
           <SearchIcon />
         </Button>
-        <Button >
-          {texts.submitButton}
+        <Button>{texts.submitButton}</Button>
+        <Button className="w-1/3">{texts.submitButton}</Button>
+      </div>
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon" variant={'outline'}>
+          <SearchIcon />
         </Button>
-        <Button className='w-1/3' >
+        <Button variant={'outline'}>{texts.submitButton}</Button>
+        <Button className="w-1/3" variant={'outline'}>
           {texts.submitButton}
         </Button>
       </div>
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" variant={'outline'} >
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon" variant={'destructive'}>
           <SearchIcon />
         </Button>
-        <Button variant={'outline'}>
-          {texts.submitButton}
-        </Button>
-        <Button className='w-1/3' variant={'outline'} >
+        <Button variant={'destructive'}>{texts.submitButton}</Button>
+        <Button className="w-1/3" variant={'destructive'}>
           {texts.submitButton}
         </Button>
       </div>
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" variant={'destructive'} >
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon" variant={'ghost'}>
           <SearchIcon />
         </Button>
-        <Button variant={'destructive'}>
-          {texts.submitButton}
-        </Button>
-        <Button className='w-1/3' variant={'destructive'} >
+        <Button variant={'ghost'}>{texts.submitButton}</Button>
+        <Button className="w-1/3" variant={'ghost'}>
           {texts.submitButton}
         </Button>
       </div>
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" variant={'ghost'} >
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon" variant={'secondary'}>
           <SearchIcon />
         </Button>
-        <Button variant={'ghost'}>
-          {texts.submitButton}
-        </Button>
-        <Button className='w-1/3' variant={'ghost'} >
+        <Button variant={'secondary'}>{texts.submitButton}</Button>
+        <Button className="w-1/3" variant={'secondary'}>
           {texts.submitButton}
         </Button>
       </div>
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" variant={'secondary'} >
+      <div className="flex w-full items-center justify-around py-2">
+        <Button size="icon" variant={'link'}>
           <SearchIcon />
         </Button>
-        <Button variant={'secondary'}>
-          {texts.submitButton}
-        </Button>
-        <Button className='w-1/3' variant={'secondary'} >
-          {texts.submitButton}
-        </Button>
-      </div>
-      <div className='flex items-center justify-around w-full py-2'>
-        <Button size="icon" variant={'link'} >
-          <SearchIcon />
-        </Button>
-        <Button variant={'link'}>
-          {texts.submitButton}
-        </Button>
-        <Button className='w-1/3' variant={'link'} >
+        <Button variant={'link'}>{texts.submitButton}</Button>
+        <Button className="w-1/3" variant={'link'}>
           {texts.submitButton}
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

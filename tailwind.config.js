@@ -61,12 +61,12 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      fontSize:{
-        'xs': 'calc(var(--fontSize) - 4px)',
-        'sm': 'calc(var(--fontSize) - 2px)',
-        'base': 'calc(var(--fontSize))',
-        'lg': 'calc(var(--fontSize) + 2px)',
-        'xl': 'calc(var(--fontSize) + 4px)',
+      fontSize: {
+        xs: 'calc(var(--fontSize) - 4px)',
+        sm: 'calc(var(--fontSize) - 2px)',
+        base: 'calc(var(--fontSize))',
+        lg: 'calc(var(--fontSize) + 2px)',
+        xl: 'calc(var(--fontSize) + 4px)',
         '2xl': 'calc(var(--fontSize) + 8px)',
         '3xl': 'calc(var(--fontSize) + 12px)',
         '4xl': 'calc(var(--fontSize) + 16px)',

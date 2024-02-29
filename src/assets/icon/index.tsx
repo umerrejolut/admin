@@ -1,4 +1,4 @@
-import Email  from "./res/EmailIcon.png"
+import Email from './res/EmailIcon.png';
 export const ICONS = {
-    Email,
-}
+  Email,
+};
