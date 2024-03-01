@@ -10,14 +10,14 @@ import * as Yup from 'yup';
 const SignupPage = () => {
   const { t } = useTranslation();
   const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: (data) => SIGNUP(data),
-    onSuccess: (data) => {
+    mutationFn: data => SIGNUP(data),
+    onSuccess: data => {
       console.log('response', data);
     },
-    onError: (error) => {
-      handleCustomError(error)
-    }
-  })
+    onError: error => {
+      handleCustomError(error);
+    },
+  });
   const texts = {
     title: t('Sign Up'),
     usernameLabel: t('Username'),

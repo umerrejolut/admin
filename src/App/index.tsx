@@ -1,12 +1,8 @@
-import RouterOutlet from "./Routes";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import RouterOutlet from './Routes';
 
 const App = () => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <RouterOutlet />
