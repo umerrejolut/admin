@@ -18,7 +18,7 @@ const App = () => {
           element={
             <div className="h-screen bg-background text-primary">
               <h1 className="flex justify-center text-6xl">{t('title')}</h1>
-                    <Outlet />
+                         <Outlet />
             </div>
           }
         >
