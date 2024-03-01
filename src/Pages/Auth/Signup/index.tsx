@@ -2,12 +2,22 @@ import { SIGNUP } from '@/Services/api';
 import { handleCustomError } from '@/Utils/helper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useMutation } from '@tanstack/react-query';
 import { ErrorMessage, Form, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 const SignupPage = () => {
   const { t } = useTranslation();
+  const { mutate, isPending, error, isError } = useMutation({
+    mutationFn: (data) => SIGNUP(data),
+    onSuccess: (data) => {
+      console.log('response', data);
+    },
+    onError: (error) => {
+      handleCustomError(error)
+    }
+  })
   const texts = {
     title: t('Sign Up'),
     usernameLabel: t('Username'),
@@ -24,9 +34,9 @@ const SignupPage = () => {
     submitButton: t('Submit'),
   };
 
-  const register = async (values: any) => {
+  const register = (values: any) => {
     try {
-      await SIGNUP(values);
+      mutate(values);
     } catch (error) {
       handleCustomError(error);
     }
@@ -140,6 +150,7 @@ const SignupPage = () => {
                 type="submit"
                 variant={'default'}
                 className="w-2/3 text-primary-foreground"
+                disabled={isPending ? true : false}
               >
                 {texts.submitButton}
               </Button>
@@ -147,6 +158,7 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
+      {isError && <div>Error: {error.message}</div>}
     </div>
   );
 };
