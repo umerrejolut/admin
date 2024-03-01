@@ -1,10 +1,12 @@
 import { GET_POSTS } from '@/Services/api';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 const Posts = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['posts'], // Adjusted query key to 'posts'
     queryFn: GET_POSTS,
+    staleTime:50000000
   });
 
   if (isLoading) return 'Loading...';
@@ -19,6 +21,7 @@ const Posts = () => {
 
   return (
     <div>
+      <Link to="/">Home</Link>
       {data &&
         data.data.length > 0 &&
         data.data.map((post: { id: string; title: string }) => (

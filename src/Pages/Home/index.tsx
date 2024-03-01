@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 function Home() {
   //translation
@@ -25,6 +26,7 @@ function Home() {
   }
   return (
     <div className="flex h-full flex-col items-center justify-center">
+      <Link to="/posts">Posts</Link>
       <h1>{texts.title}</h1>
       <Input
         icon={<SearchIcon />}
