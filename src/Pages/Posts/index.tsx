@@ -6,7 +6,7 @@ const Posts = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['posts'], // Adjusted query key to 'posts'
     queryFn: GET_POSTS,
-    staleTime:50000000
+    staleTime: 50000000,
   });
 
   if (isLoading) return 'Loading...';
