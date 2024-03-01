@@ -11,3 +11,5 @@ export const header = {
 
 export const SIGNUP = async (body: any) =>
   await axios.post(API_ROUTES.SIGNUP, body);
+export const GET_POSTS = async () =>
+  await axios.get('https://jsonplaceholder.typicode.com/posts');

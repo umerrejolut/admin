@@ -7,6 +7,7 @@ import {
   import Home from '../Pages/Home';
   import { useTranslation } from 'react-i18next';
   import SignupPage from '@/Pages/Auth/Signup';
+import Posts from '@/Pages/Posts';
   
   const RouterOutlet = () => {
     const { t } = useTranslation();
@@ -24,6 +25,7 @@ import {
           >
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<SignupPage />} />
+            <Route path="/posts" element={<Posts />} />
           </Route>
         </Routes>
       </Router>
