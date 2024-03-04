@@ -23,7 +23,7 @@ const RouterOutlet = () => {
   }, [isConnected]);
 
   const getSigner = () => {
-    let provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum);
     return provider?.getSigner();
   };
 

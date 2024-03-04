@@ -1,3 +1,4 @@
+import { SignUpData } from '@/Common/interface';
 import { API_ROUTES } from '@/Constants/apiRoutes';
 import axios from 'axios';
 
@@ -9,7 +10,7 @@ export const header = {
   },
 };
 
-export const SIGNUP = async (body: any) =>
+export const SIGNUP = async (body: SignUpData) =>
   await axios.post(API_ROUTES.SIGNUP, body);
 export const GET_POSTS = async () =>
   await axios.get('https://jsonplaceholder.typicode.com/posts');

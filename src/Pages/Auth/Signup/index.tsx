@@ -1,5 +1,5 @@
+import { SignUpData } from '@/Common/interface';
 import { SIGNUP } from '@/Services/api';
-import { handleCustomError } from '@/Utils/helper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMutation } from '@tanstack/react-query';
@@ -10,12 +10,12 @@ import * as Yup from 'yup';
 const SignupPage = () => {
   const { t } = useTranslation();
   const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: data => SIGNUP(data),
+    mutationFn: (data: SignUpData) => SIGNUP(data),
     onSuccess: data => {
       console.log('response', data);
     },
     onError: error => {
-      handleCustomError(error);
+      console.log(error);
     },
   });
   const texts = {
@@ -34,11 +34,11 @@ const SignupPage = () => {
     submitButton: t('Submit'),
   };
 
-  const register = (values: any) => {
+  const register = (values: SignUpData) => {
     try {
       mutate(values);
     } catch (error) {
-      handleCustomError(error);
+      console.log(error);
     }
   };
 
