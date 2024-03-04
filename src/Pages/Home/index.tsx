@@ -12,12 +12,13 @@ function Home() {
 
   const texts = {
     title: t('title'),
-    searchPlaceholder: t('Search'),
-    languageLabel: t('Language'),
-    submitButton: t('Submit'),
-    englishOption: t('English'),
-    frenchOption: t('French'),
-    spanishOption: t('Spanish'),
+    searchPlaceholder: t('searchPlaceholder'),
+    languageLabel: t('languageLabel'),
+    submitButton: t('submitButton'),
+    englishOption: t('englishOption'),
+    frenchOption: t('frenchOption'),
+    spanishOption: t('spanishOption'),
+    posts: t('posts'),
   };
 
   function handleClick(lang: string) {
@@ -26,7 +27,7 @@ function Home() {
   }
   return (
     <div className="flex h-full flex-col items-center justify-center">
-      <Link to="/posts">Posts</Link>
+      <Link to="/posts">{texts.posts}</Link>
       <h1>{texts.title}</h1>
       <Input
         icon={<SearchIcon />}

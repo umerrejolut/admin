@@ -175,7 +175,7 @@ export const AllContactIcon = () => {
   );
 };
 
-export const SearchIcon = ({}) => {
+export const SearchIcon = () => {
   return (
     <svg
       width="20"

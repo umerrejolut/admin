@@ -1,5 +1,5 @@
+import { SignUpData } from '@/Common/interface';
 import { SIGNUP } from '@/Services/api';
-import { handleCustomError } from '@/Utils/helper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMutation } from '@tanstack/react-query';
@@ -9,36 +9,36 @@ import * as Yup from 'yup';
 
 const SignupPage = () => {
   const { t } = useTranslation();
-  const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: data => SIGNUP(data),
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: SignUpData) => SIGNUP(data),
     onSuccess: data => {
       console.log('response', data);
     },
     onError: error => {
-      handleCustomError(error);
+      console.log(error);
     },
   });
   const texts = {
-    title: t('Sign Up'),
-    usernameLabel: t('Username'),
-    emailLabel: t('Email Address'),
-    passwordLabel: t('Password'),
-    confirmPasswordLabel: t('Confirm Password'),
-    usernameRequired: t('Required'),
-    emailRequired: t('Required'),
-    invalidEmail: t('Invalid email address'),
-    passwordRequired: t('Required'),
-    passwordMinLength: t('Must be at least 6 characters'),
-    confirmPasswordMismatch: t('Passwords must match'),
-    usernameMinLength: t('Must be at least 3 characters'),
-    submitButton: t('Submit'),
+    title: t('signUpTitle'),
+    usernameLabel: t('usernameLabel'),
+    emailLabel: t('emailLabel'),
+    passwordLabel: t('passwordLabel'),
+    confirmPasswordLabel: t('confirmPasswordLabel'),
+    usernameRequired: t('usernameRequired'),
+    emailRequired: t('emailRequired'),
+    invalidEmail: t('invalidEmail'),
+    passwordRequired: t('passwordRequired'),
+    passwordMinLength: t('passwordMinLength'),
+    confirmPasswordMismatch: t('confirmPasswordMismatch'),
+    usernameMinLength: t('usernameMinLength'),
+    submitButton: t('submitButton'),
   };
 
-  const register = (values: any) => {
+  const register = (values: SignUpData) => {
     try {
       mutate(values);
     } catch (error) {
-      handleCustomError(error);
+      console.log(error);
     }
   };
 
@@ -158,7 +158,6 @@ const SignupPage = () => {
           </Form>
         )}
       </Formik>
-      {isError && <div>Error: {error.message}</div>}
     </div>
   );
 };
