@@ -1,9 +1,7 @@
 import SignupPage from '@/Pages/Auth/Signup';
 import Posts from '@/Pages/Posts';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Outlet,
   Route,
@@ -12,9 +10,11 @@ import {
 } from 'react-router-dom';
 import { useAccount, useDisconnect } from 'wagmi';
 import Home from '../Pages/Home';
+import LoginPage from '@/Pages/LoginPage';
+import DashboardLayout from '@/Pages/DashboardPage';
+import ManageAirdropsPage from '@/Pages/DashboardPage/ManageAirdrops';
 
 const RouterOutlet = () => {
-  const { t } = useTranslation();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -41,26 +41,34 @@ const RouterOutlet = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="h-screen bg-background text-primary">
-              <div className="flex items-center justify-between px-5 py-3">
-                <h1 className="flex justify-center text-6xl">{t('title')}</h1>
-                <ConnectButton
-                  accountStatus="address"
-                  chainStatus={'full'}
-                  showBalance={true}
-                />
-              </div>
-              <Outlet />
-            </div>
-          }
-        >
-          <Route path="/" element={<Home />} />
+        {/* <Route path='/' element={<RootLayout/>}> */}
+          {/* <Route index element={<Login/>}/>   */}
+          <Route path='/' element={<LoginPage/>}/>        
+        {/* <Route path='/' element={<RootLayout/>}> */}
+          <Route path="/Home" element={<Home />} />
           <Route path="/register" element={<SignupPage />} />
           <Route path="/posts" element={<Posts />} />
+
+          <Route
+          path="dashboard"
+          element={
+            <DashboardLayout>
+              <Outlet />
+            </DashboardLayout>
+          }
+        >
+          <Route index element={<ManageAirdropsPage />} />
+          {/* <Route
+            path="manage-estate"
+            element={
+                <Outlet />
+            }
+          >
+            <Route index element={<ManageAirdropsPage />} />
+          </Route> */}
         </Route>
+        {/* </Route> */}
+        {/* </Route> */}
       </Routes>
     </Router>
   );

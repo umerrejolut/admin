@@ -2,7 +2,7 @@
   "title": "React Boilerplate",
   "signUpTitle": "Sign Up",
   "usernameLabel": "Username",
-  "emailLabel": "Email Address",
+  "emailLabel": "Email",
   "passwordLabel": "Password",
   "confirmPasswordLabel": "Confirm Password",
   "usernameRequired": "Required",
@@ -22,5 +22,16 @@
   "home": "Home",
   "loading": "Loading",
   "retry": "Retry",
-  "anError": "An error has occurred"
+  "anError": "An error has occurred",
+  "adminPanel": "Admin Panel",
+  "login": "Login",
+  "sidebar":{
+    "menu": {
+      "menu1": "Manage Airdrops"
+    }
+  },
+  "Change_Password": "Change Password",
+  "Old_Password": "Old Password",
+  "New_Password": "New Password",
+  "passwordsMustMatch": "Password Must Match"
 }

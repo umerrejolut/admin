@@ -4,20 +4,22 @@
 
 @layer base {
   :root {
-    --background: 0, 10%, 5%, 1;
+    --background: 0, 0%, 4%, 1;
     --foreground: 222.2 84% 4.9%;
     --primary-color: 168, 100%, 33%, 1;
     --card: 0, 0%, 0%, 1;
     --card-foreground: 208, 9%, 57%, 1;
     --blue-tick: 189, 60%, 58%, 1;
+    --inputbackground: 0, 0%, 98%, 0.02;
 
     --popover: 209, 24%, 22%, 1;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 168, 100%, 33%, 1;
+    --primary: 0, 0%, 98%, 1;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    /* --secondary: 210 40% 96.1%; */
+    --secondary: 169, 95%, 54%;
     --secondary-foreground: #88929b;
 
     --muted: 210 40% 96.1%;
@@ -29,6 +31,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    --login: 190, 100%, 42%;
+    --login-foreground: 210 40% 98%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
@@ -37,6 +42,8 @@
     --radius-lg: 12px;
 
     --fontSize: 16px;
+
+    --primaryblack: #0B0B0B;
   }
 
   .dark {
@@ -49,7 +56,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 0, 0%, 98%, 1;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -63,6 +70,9 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
+    --login: 190, 100%, 42%;
+    --login-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
@@ -78,5 +88,18 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: Chakra Petch
+    , 'Helvetica Neue',
+      sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #0B0B0B;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
   }
 }
