@@ -20,10 +20,6 @@ interface ConfirmSuccessModalProps {
 export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, totalShards, tableDetails, handleOpenAddAirdrop, getAirdropTable  }: ConfirmSuccessModalProps) {
     const [loading, setLoading] = useState(false);
 
-    const reload = () => {
-        window.location.reload()
-    }
-
     const approveUser = async() => {
         try {
             setLoading(true);

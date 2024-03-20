@@ -1,5 +1,5 @@
 import { SearchIcon } from "@/assets/svg";
-import { AirdropTable, Detail, MatrixData, Row, WalletType } from "@/Common/interface";
+import { AirdropTable,  MatrixData, Row, WalletType } from "@/Common/interface";
 import { CustomAddAridrop } from "@/components/CustomAddAirdrop";
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
@@ -16,8 +16,8 @@ function ManageAirdropsPage(){
     const [matrixValue, setMatrixValue] = useState<MatrixData>();
     const [searchAddress, setSearchAddress] = useState<string | number>()
     const [keyWords,setKeyWords] = useState<string>();
-    const [details, setDetails] = useState<Detail[]>([])
-    const [addAddress, setAddAddress] = useState<string>()
+    // const [details, setDetails] = useState<Detail[]>([])
+    // const [addAddress, setAddAddress] = useState<string>()
 
     const [itemsPerPage] = useState(4);
     const headers = [
@@ -141,10 +141,10 @@ function ManageAirdropsPage(){
     console.log("loading", loading);
     console.log("matrixValue::::::", matrixValue?.totalAirdropped?._sum?.value);
     
-    const handleInputChange = (value: string | number ) => {
-      // setSearchAddress(value);
-      setAddAddress(value);
-    }
+    // const handleInputChange = (value: string | number ) => {
+    //   // setSearchAddress(value);
+    //   setAddAddress(value);
+    // }
     console.log("searchAddress:::::", searchAddress)
     
     return (
@@ -183,7 +183,7 @@ function ManageAirdropsPage(){
               type="search"
               value={searchAddress}
               onChange={(e) => {
-                handleInputChange( e.target.value);
+                // handleInputChange( e.target.value);
                 handleAddressSearch(e.target.value)}
               }
             />
@@ -194,14 +194,14 @@ function ManageAirdropsPage(){
               {keyWords ? 
                 (
                 <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md">
-                  {searchAddress && searchAddress.map((address: any, index: number) => (
+                  {searchAddress && searchAddress.map((address: string, index: number) => (
                     <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointe" 
                     key={index} 
                     onClick={() => {
                       setKeyWords("");
                       // handleInputChange(index, 'wallet_address', address);  
                       // handleInputChange( address); 
-                      setAddAddress(address)
+                      // setAddAddress(address)
                     }}
                     >
                       {address}

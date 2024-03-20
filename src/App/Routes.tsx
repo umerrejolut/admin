@@ -20,6 +20,7 @@ const RouterOutlet = () => {
 
   useEffect(() => {
     isConnected && signMessage();
+    // eslint-disable-next-line
   }, [isConnected]);
 
   const getSigner = () => {

@@ -22,7 +22,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
     const [searchAddress, setSearchAddress] = useState([]);
     const [selectAddress, setSelectAddress] = useState<string>();
     const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
-    const [addressSet, setAddressSet] = useState<string[]>([]);
+    // const [addressSet, setAddressSet] = useState<string[]>([]);
     const [keyWords, setKeyWords] = useState<string>();
 
     const handleAddDetail = () => {
@@ -70,13 +70,12 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
 
       console.log("searchAddress:::", searchAddress, selectAddress, openConfirmPopup)
 
-      console.log("addressSet:::", addressSet)
       console.log("details::", details);
 
     const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
     const userLength = details.length;
     
-    console.log("keyWords", keyWords)
+    console.log("keyWords", keyWords, loading)
 
     return (
       <div className="fixed top-0 left-0 w-full h-[100%] flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -131,6 +130,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                     </thead>
                     <tbody>
           
+                     {/* eslint-disable-next-line */}
                       {details.map((detail: any, index: number) => (
                       <tr key={index}>
                         
@@ -149,7 +149,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           {keyWords ? 
                           (
                           <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md">
-                            {searchAddress && searchAddress.map((address: any, idx: number) => (
+                            {searchAddress && searchAddress.map((address: string, idx: number) => (
                               <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
                               key={idx} 
                               onClick={(e) => {

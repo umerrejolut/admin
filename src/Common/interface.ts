@@ -59,8 +59,9 @@ export interface AirdropTable {
 } 
 
 export interface ParamsType {
-  [key: string]: any;
-};
+  // eslint-disable-next-line
+  [key: string]: any,
+}
 
 export interface WalletType {
   wallet_address: string | number,
