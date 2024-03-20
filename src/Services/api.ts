@@ -1,4 +1,4 @@
-import { AirdropTable, ChangeNewPasswordData, Detail, ParamsType, SignUpData, WalletType } from '@/Common/interface';
+import { AirdropTable, ChangeNewPasswordData, ChangeProfilePasswordData, Detail, ParamsType, SignUpData, WalletType } from '@/Common/interface';
 import { API_ROUTES } from '@/Constants/apiRoutes';
 import { store } from '@/store';
 // import  axios  from 'axios';
@@ -66,4 +66,8 @@ export const SEARCH_WALLETADDRESS = async (params: WalletType) => {
 
 export const ADD_AIRDROP_USER = async (body:Detail[]) => {
   return await axios.post(API_ROUTES.ADD_AIRDROP_USER, body);
+}
+
+export const PROFILE_CHANGE_PASSWORD = async (body: ChangeProfilePasswordData) => {
+  return await axios.put(API_ROUTES.PROFILE_CHANGE_PASSWORD, body)
 }

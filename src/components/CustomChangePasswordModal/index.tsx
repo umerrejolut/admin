@@ -12,15 +12,16 @@ import { ClosedEyeSvgIcon, CloseSvgModal, EyeSvgIcon } from "@/assets/svg";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 import CustomButton from "../CustomButton";
-import { CHANGE_PASSWORD } from "@/Services/api";
-import { ChangeNewPasswordData } from "@/Common/interface";
+import { CHANGE_PASSWORD, PROFILE_CHANGE_PASSWORD } from "@/Services/api";
+import { ChangeNewPasswordData, ChangeProfilePasswordData } from "@/Common/interface";
 
 interface ChangePassModalProps {
     isOpen: boolean;
     closeModal: () => void;
+    profile: boolean;
 }
 
-export default function ChangePassModal({ isOpen, closeModal }: ChangePassModalProps) {
+export default function ChangePassModal({ isOpen, closeModal, profile }: ChangePassModalProps) {
   const { t } = useTranslation();
   const navigation = useNavigate();
   const [buttonIsLoading, setButtonIsLoading] = useState(false);
@@ -28,11 +29,7 @@ export default function ChangePassModal({ isOpen, closeModal }: ChangePassModalP
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-//   const token = cookieStorage.getCookie("accessToken");
-
-//   const role = token
-//     ? JSON.parse(cookieStorage.getCookie("payload"))?.role
-//     : "Un authorized";
+  
   const formik = useFormik({
     initialValues: {
       oldPassword: "",
@@ -59,21 +56,27 @@ export default function ChangePassModal({ isOpen, closeModal }: ChangePassModalP
   const chnagePassword = async () => {
     try {
       setButtonIsLoading(true);
-      const body: ChangeNewPasswordData = {
-        new_password: formik.values.newPassword,
-        confirm_new_password: formik.values.confirmNewPassword,
-      };
-    //   let body = {
-    //     ...formik.values,
-    //   };
-    //   if (role === "SUPER_ADMIN") {
-    //     let data = await CHANGE_PASSWORD(body);
-    //   } else {
-    //     let data = await CHANGE_ORG_PASSWORD(body);
-    //   }
-    const data = await CHANGE_PASSWORD(body);
+      let body;
+      if (profile) {
+        body = {
+          old_password: formik.values.oldPassword,
+          new_password: formik.values.newPassword,
+          confirm_new_password: formik.values.confirmNewPassword,
+        } as  ChangeProfilePasswordData;
+      } else {
+        body = {
+          new_password: formik.values.newPassword,
+          confirm_new_password: formik.values.confirmNewPassword,
+        } as ChangeNewPasswordData;
+      }
+    let data;
+    if(profile){
+      data = await PROFILE_CHANGE_PASSWORD(body)
+    }else{
+      data = await CHANGE_PASSWORD(body);
+    }
     console.log("data", data);
-      navigation("/");
+    !profile && navigation("/");
       toast.success("Successfully changed password");
       formik.resetForm();
       closeModal();

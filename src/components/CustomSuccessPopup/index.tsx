@@ -88,7 +88,7 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
                     <p className="font-medium text-lg text-headingColor">Confirm Airdrop?</p>
                   </div>
                   <div className="flex gap-3">
-                    <CustomButton title="Cancle" onClick={closeModal} />
+                    <CustomButton title="Cancel" onClick={closeModal} />
                     <CustomButton title="Approve" onClick={approveUser} />
                   </div>
                   </div>

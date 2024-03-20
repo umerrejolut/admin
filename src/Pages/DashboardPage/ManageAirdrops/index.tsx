@@ -93,21 +93,21 @@ function ManageAirdropsPage(){
     const getAirdropTable = async () => {
       try {
         const body: AirdropTable = {
-          // wallet_address: searchAddress ? searchAddress : "",
+          wallet_address:  searchAddress ? searchAddress : "",
+          // ...(searchAddress && { wallet_address: searchAddress }),
           limit: 10,
           offset: 0,
-        }
+        };
         setLoading(true);
         const response = await AIRDROP_TRANSACTIONS(body);
-        console.log("response getAirdropTable::::::", response.data.history);
-        setAirdropUserList(response.data.history)
+        setAirdropUserList(response.data.history);
         setLoading(false);
       } catch (error) {
-        if(isAxiosError(error)){
+        if (isAxiosError(error)) {
           toast.error(error?.response?.data?.message);
         }
       }
-    }
+    };
 
     const handleAddressSearch = async (keyWords: string) => {
       setKeyWords(keyWords)
@@ -130,7 +130,8 @@ function ManageAirdropsPage(){
     // const handleInputChange = (index: number, key: keyof Detail, value: string) => {
     //   const updatedDetails = [...details];
     //   updatedDetails[index][key] = value;
-    //   setDetails(updatedDetails);
+    //   // setDetails(updatedDetails);
+    //   setSearchAddress(searchAddress);
     // };
 
     useEffect(() => {
@@ -184,24 +185,28 @@ function ManageAirdropsPage(){
               value={searchAddress}
               onChange={(e) => {
                 // handleInputChange( e.target.value);
-                handleAddressSearch(e.target.value)}
-              }
+                handleAddressSearch(e.target.value);
+                // getAirdropTable(e.target.value);
+              }}
             />
-              <button className="ml-2" onClick={getAirdropTable}>
+              <button className="ml-2" 
+              // onClick={getAirdropTable}
+              >
                 <SearchIcon/>
               </button>
               </div>
               {keyWords ? 
                 (
                 <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md">
-                  {searchAddress && searchAddress.map((address: string, index: number) => (
-                    <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointe" 
-                    key={index} 
+                  {searchAddress && searchAddress.map((address: string, idx: number) => (
+                    <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
+                    key={idx} 
                     onClick={() => {
                       setKeyWords("");
                       // handleInputChange(index, 'wallet_address', address);  
                       // handleInputChange( address); 
                       // setAddAddress(address)
+                      getAirdropTable();
                     }}
                     >
                       {address}

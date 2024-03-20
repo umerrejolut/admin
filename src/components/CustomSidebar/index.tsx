@@ -27,6 +27,7 @@ const Sidebar:React.FC<SidebarProps> = ({ items }: SidebarProps) => {
   //   " linear-gradient(180deg, #F5EEE1 0%, #CEB5AA 82.27%, #6A221D 166%)";
 
   const [expandedSubmenu, setExpandedSubmenu] = useState<number | null>(null);
+  const { pathname } = useLocation();
 
   const handleSubmenuClick = (index: number) => {
     if (index === expandedSubmenu) {
@@ -66,7 +67,7 @@ console.log("items:::::::::::", items)
           </div>
         </button>
 
-        <ul className="my-5 bg-red-100">
+        <ul className={`my-5 ${pathname !== "/dashboard/profile" && 'bg-red-100'}`}>
           {items && items.length > 0 && items.map((item: Route, index: number) => (
             
             <li

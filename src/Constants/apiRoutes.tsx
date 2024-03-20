@@ -11,4 +11,5 @@ export const API_ROUTES = {
   AIRDROP_TRANSACTIONS: `${BASE_URL}/admin-module/airdrop-transaction`,
   SEARCH_WALLETADDRESS: `${BASE_URL}/admin-module/wallet-suggestion`,
   ADD_AIRDROP_USER: `${BASE_URL}/admin-module/airdrop-user`,
+  PROFILE_CHANGE_PASSWORD: `${BASE_URL}/admin-module/profile/change-password`
 };

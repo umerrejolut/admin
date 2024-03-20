@@ -66,10 +66,10 @@ const formik = useFormik({
       };
       const data = await LOGIN(body);
       console.log('data', data);
-      if (data?.data?.accessToken) {
-        localStorage.setItem('accessToken', data.data.accessToken);
-        localStorage.setItem('payload', JSON.stringify(data.data.payload));
-      }      
+      // if (data?.data?.accessToken) {
+      //   localStorage.setItem('accessToken', data.data.accessToken);
+      //   localStorage.setItem('payload', JSON.stringify(data.data.payload));
+      // }      
       store.dispatch(setAuthToken(data.data.accessToken));
       store.dispatch(setUserData(data.data.payload));
       toast.success('Successfully Logged In ');
@@ -149,6 +149,7 @@ const formik = useFormik({
               <ChangePassModal
               isOpen={isChnagePassModalOpen}
               closeModal={closeChangePassModal}
+              profile={false}
               />
             <div className="mt-12">
               <CustomButton title="Login" loading={buttonIsLoading} />

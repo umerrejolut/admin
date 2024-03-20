@@ -13,6 +13,7 @@ import Home from '../Pages/Home';
 import LoginPage from '@/Pages/LoginPage';
 import DashboardLayout from '@/Pages/DashboardPage';
 import ManageAirdropsPage from '@/Pages/DashboardPage/ManageAirdrops';
+import MyProfile from '@/Pages/MyProfile';
 
 const RouterOutlet = () => {
   const { isConnected } = useAccount();
@@ -43,7 +44,6 @@ const RouterOutlet = () => {
     <Router>
       <Routes>
         {/* <Route path='/' element={<RootLayout/>}> */}
-          {/* <Route index element={<Login/>}/>   */}
           <Route path='/' element={<LoginPage/>}/>        
         {/* <Route path='/' element={<RootLayout/>}> */}
           <Route path="/Home" element={<Home />} />
@@ -58,7 +58,6 @@ const RouterOutlet = () => {
             </DashboardLayout>
           }
         >
-          {/* <Route index element={<ManageAirdropsPage />} /> */}
           <Route
             path="manage-airdrops"
             element={
@@ -67,6 +66,7 @@ const RouterOutlet = () => {
           >
             <Route index element={<ManageAirdropsPage />} />
           </Route>
+          <Route path='profile' element={<MyProfile/>}/>
         </Route>
         {/* </Route> */}
         {/* </Route> */}

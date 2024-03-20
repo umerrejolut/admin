@@ -2,15 +2,35 @@ import { IMAGES } from "@/assets/images";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import DropMenu from "../DropMenu";
+import { useNavigate } from "react-router-dom";
+import { logoutRedux } from "@/store";
 
 
 export const Header = () => {
     const [openPopup ,setOpenPopup] = useState(false);
     const { t } = useTranslation();
+    const navigation = useNavigate(); 
 
     const handleOpenPopup = async () => {
         setOpenPopup(!openPopup);
     };
+
+    const handlefunctions = async(key: string) => {
+        handleOpenPopup();
+        switch (key) {
+            case "profile":
+                navigation('profile');
+                break;
+
+            case "logout":
+                logoutRedux();
+                navigation("/");
+                break
+        
+            default:
+                break;
+        }
+    }
 
     return (
         // <div className="bg-background text-primary h-[72px] border-b-[0.75px] border-b-lightprimary bg-background-blackmain bg-blur">
@@ -34,10 +54,7 @@ export const Header = () => {
                     { key: "logout", action: "Log Out" }
                     ]}
                     // toggleMenu={(item: string) => handleOpenPopup()}
-                    toggleMenu={(key) => {
-                        // Handle the click event here
-                        console.log("Selected action key:", key);
-                    }}
+                    toggleMenu={(item: string) => handlefunctions(item)}
                 />
             }
             </div>
