@@ -78,7 +78,7 @@ console.log("items:::::::::::", items)
               : location.pathname.includes(item?.path)
               ? `menuGradient`
               : "bg-transparent"
-            } hover:bg-hoverColor
+            } hover:bg-slate-700
             `}
             >
               <div
@@ -117,49 +117,6 @@ console.log("items:::::::::::", items)
                   </div>
                 )} */}
               </div>
-              {/* {item.subItems && expandedSubmenu === index && (
-                <div
-                  className="submenu-section"
-                  style={{
-                    background: `var(--cta-linear, ${customLinearGradientSubmenu})`,
-                  }}
-                >
-                  <ul>
-                    {item.subItems.map((subItem: any) => (
-                      <li
-                        key={subItem.id}
-                        className="flex flex-row py-3 align-middle items-center gap-2"
-                        style={{
-                          background:
-                            location.pathname === subItem?.path
-                              ? `var(--cta-linear, ${customLinearGradientSubmenu})`
-                              : "transparent",
-                        }}
-                      >
-                        <Link
-                          to={!subItem.renderFunction && subItem?.path}
-                          onClick={() =>
-                            subItem.renderFunction && subItem.renderFunction()
-                          }
-                        >
-                          <div className="px-7">
-                            <p
-                              className={` ${
-                                location.pathname === subItem?.path ||
-                                subItem.id === 87
-                                  ? "text-sideBarBg font-medium text-base "
-                                  : "text-labelColor font-normal text-base hover:text-buttonBg hover:font-semibold"
-                              }`}
-                            >
-                              {subItem.label}
-                            </p>
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )} */}
             </li>
           ))}
         </ul>

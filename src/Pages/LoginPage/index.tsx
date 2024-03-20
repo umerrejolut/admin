@@ -6,9 +6,13 @@ import CustomButton from '@/components/CustomButton';
 import ChangePassModal from '@/components/CustomChangePasswordModal';
 import CustomInput from '@/components/CustomInput';
 import ErrorMessage from '@/components/ErrorMessage';
+import { store } from '@/store';
+import { setAuthToken } from '@/store/authToken';
+import { setUserData } from '@/store/userDetail';
 import { isAxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
@@ -19,6 +23,7 @@ function LoginPage() {
     // const [password, setPassword] = useState("");
     const [buttonIsLoading, setButtonIsLoading] = useState(false);
     const [isChnagePassModalOpen, setIsChangePassModalOpen] = useState(false);
+    const navigation = useNavigate()
     // const { mutate, isPending } = useMutation({
     //     mutationFn: (data: SignUpData) => LOGIN(data),
     //     onSuccess: data => {
@@ -64,9 +69,12 @@ const formik = useFormik({
       if (data?.data?.accessToken) {
         localStorage.setItem('accessToken', data.data.accessToken);
         localStorage.setItem('payload', JSON.stringify(data.data.payload));
-      }
+      }      
+      store.dispatch(setAuthToken(data.data.accessToken));
+      store.dispatch(setUserData(data.data.payload));
       toast.success('Successfully Logged In ');
-      window.location.href = '/dashboard';
+      // window.location.href = '/dashboard';
+      navigation("dashboard/manage-airdrops")
     } catch (error) {
       if(isAxiosError(error)){
         toast.error(error?.response?.data?.message);

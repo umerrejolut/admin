@@ -25,12 +25,12 @@ function DashboardLayout({ children }: { children: ReactNode }) {
   const routes = [
     {
       id: 1,
-      path: "/dashboard/manage-estate",
-      label: "Hiiiii",
+      path: "/dashboard/manage-airdrops",
+      label: "Manage Airdrops",
       icon: (
         <ManageEstateSvgIcon
           color={
-            location.pathname.includes("/dashboard/manage-estate")
+            location.pathname.includes("/dashboard/manage-airdrops")
               ? "#421317"
               : "#F7EEE0"
           }
@@ -47,7 +47,6 @@ function DashboardLayout({ children }: { children: ReactNode }) {
     <div className=" flex min-w-full min-h-full">
       <Sidebar items={routes} />
       <div className="content flex-1 ">
-        {/* <CustomNavbar /> */}
         <Header/>
         {children}
       </div>

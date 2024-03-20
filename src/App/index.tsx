@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { polygon } from 'wagmi/chains';
 import RouterOutlet from './Routes';
+import { persistor, store } from '@/store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -19,7 +22,11 @@ const App = () => {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider modalSize="compact">
-          <RouterOutlet />
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <RouterOutlet />
+            </PersistGate>
+          </Provider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

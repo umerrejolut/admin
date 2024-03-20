@@ -12,7 +12,7 @@ interface CustomInputProps {
     name?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    value?: string;
+    value?: string | number;
   }
 
 const CustomInput = ({

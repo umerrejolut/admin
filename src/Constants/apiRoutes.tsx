@@ -8,4 +8,7 @@ export const API_ROUTES = {
   LOGIN: `${BASE_URL}/admin-module/login`,
   MATRIX: `${BASE_URL}/admin-module/airdrop-matrics`,
   CHANGE_PASSWORD: `${BASE_URL}/admin-module/change-password`,
+  AIRDROP_TRANSACTIONS: `${BASE_URL}/admin-module/airdrop-transaction`,
+  SEARCH_WALLETADDRESS: `${BASE_URL}/admin-module/wallet-suggestion`,
+  ADD_AIRDROP_USER: `${BASE_URL}/admin-module/airdrop-user`,
 };

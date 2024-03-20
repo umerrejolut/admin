@@ -57,15 +57,15 @@ const RouterOutlet = () => {
             </DashboardLayout>
           }
         >
-          <Route index element={<ManageAirdropsPage />} />
-          {/* <Route
-            path="manage-estate"
+          {/* <Route index element={<ManageAirdropsPage />} /> */}
+          <Route
+            path="manage-airdrops"
             element={
                 <Outlet />
             }
           >
             <Route index element={<ManageAirdropsPage />} />
-          </Route> */}
+          </Route>
         </Route>
         {/* </Route> */}
         {/* </Route> */}
