@@ -1,24 +1,27 @@
+import { UpdateProfile } from '@/Common/interface';
 import ChangePassModal from '@/components/CustomChangePasswordModal';
 import CustomInput from '@/components/CustomInput';
 import ErrorMessage from '@/components/ErrorMessage';
+import { UPDATE_PROFILE, UPLOAD_PROFILE } from '@/Services/api';
+import { store } from '@/store';
+import { isAxiosError } from 'axios';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import * as Yup from "yup";
 
 
 export default function MyProfile() {
-    const [profileImage, setProfileImage] = useState<string | null>(null);
+    const [profileImage, setProfileImage] = useState<File | null>(null);
     const [isChnagePassModalOpen, setIsChangePassModalOpen] = useState(false);
-
-
+    const [loading, setLoading] = useState(false);
+    const adminData = store.getState()?.UserData.userData;
 
     const formik = useFormik({
         initialValues: {
-          // email: email || "",
-          // password: password || "",
-          email:  "",
-          name: "",
-        },
+            myfile: adminData?.avatar ? adminData.avatar : null,
+            email: "",
+          },
         enableReinitialize: true,
         validationSchema: Yup.object({
           email: Yup.string()
@@ -30,33 +33,50 @@ export default function MyProfile() {
             .email("Enter valid Email")
             .required("Email is required"),
             
-          name: Yup.string()
-            .matches(/^\S*$/, "Spaces are not allowed in the username")
-            .matches(
-              /^[a-zA-Z][a-zA-Z0-9~!@$&_\-&]*$/,
-              "Username must start with a letter and can contain numbers, letters, ~, !, @, $, _, -, or &"
-            )
-            .min(4, "Username must be at least 4 characters")
-            .max(20, "Username must not exceed 20 characters")
-            .required("Username is required"),
+          
         }),
-        onSubmit: (values) => {
-          console.log("values", values);
+        onSubmit: async (values) => {
+          console.log("values", values, loading);
+        //   uploadProfile(profileImage)
+          updateProfile(values.email, values.email)
+        //   try {
+        //     toast.info("I am callllll")
+        //     setLoading(true);
+        //     const uploadedImageUrl = await uploadProfile(profileImage);
+        //     console.log("uploadedImageUrl",uploadedImageUrl);
+            
+        //     // Then update profile with email and uploaded image link
+        //     await updateProfile(values.email, uploadedImageUrl);
+        //     setLoading(false);
+        //   } catch (error) {
+        //     setLoading(false);
+        //     if(isAxiosError(error)){
+        //         toast.error(error?.response?.data.message)
+        //     }
+        //   }
         },
       });
 
-    //   const  onFileChooser = (id) => {
-    //     document.getElementById(id).click();
-    //   }
-
     const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
+        // const selectedFiles = event.target.files;
+        // if(selectedFiles){
+        //     const filesArray = Array.from(selectedFiles);
+        //     setProfileImage(filesArray);
+        //     uploadProfile(filesArray)
+        // }
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+            // setProfileImage( file);
+            // formik.setFieldValue('myfile', file)
+            // const reader = new FileReader();
+            // reader.onload = (e: any) => {
+            //     setProfileImage(e.target.value);
+            //     uploadProfile(e.target.value)
+            // }
+            setProfileImage(file);
+            uploadProfile(file)
+            // reader.readAsDataURL(file)
+            // uploadProfile(file)
         }
     };
 
@@ -68,6 +88,60 @@ export default function MyProfile() {
         setIsChangePassModalOpen(false);
       }
 
+    
+
+    console.log("::::::::::::::profileImage:::::::::::", profileImage, );
+    // eslint-disable-next-line
+    const uploadProfile = async (file: any): Promise<string> => {
+        console.log("immmmm::::", file)
+        try {
+            // eslint-disable-next-line
+            const formData: any = new FormData();
+            // const fileObject = {
+            //     fieldname: 'myfile',
+            //     originalname: file.name,
+            //     encoding: '7bit',
+            //     mimetype: file.type,
+            //     buffer: file[0],
+            //     size: file.size
+            // };
+                // formData.append('myfile', JSON.stringify(fileObject));
+                if(file ){
+                    formData.append('myfile', file);
+                    console.log("formik.values.myfile", formik.values.myfile);
+                    
+                }
+                // formData.append('myfile', file);
+                setLoading(true);
+                const response = await UPLOAD_PROFILE(formData);
+                setLoading(false);
+                updateProfile(formik.values.email, response.data.imageLink);
+                return response.data.imageLink; 
+        } catch (error) {
+            setLoading(false);
+            throw error;
+        }
+    }
+
+    const updateProfile = async (email: string, imageLink?: string | null | undefined) => {
+        try {
+            setLoading(true);
+            const body: UpdateProfile = {
+                email: email,
+                image_uri: imageLink,
+            }
+            const response = await UPDATE_PROFILE(body);
+            setLoading(false);
+            console.log("response::::", response);
+        } catch (error) {
+            setLoading(false);
+            if(isAxiosError(error)){
+                toast.error(error?.response?.data.message)
+            }
+        }
+    }
+    console.log("formik.values:::::::::::", formik.values)
+
     return (
         <div className="bg-tableBgColor h-full">
             <p className="font-semibold text-[24px] text-headingColor p-5">My Profile</p>
@@ -77,7 +151,7 @@ export default function MyProfile() {
                     <div onClick={() => document.getElementById('fileInput')?.click()}>
                             {profileImage ? (
                                 <img
-                                    src={profileImage}
+                                    src={ URL.createObjectURL(profileImage)} // Use createObjectURL to display selected image
                                     alt='profile'
                                     className='w-[124px] h-[124px] cursor-pointer rounded-full'
                                 />
@@ -96,24 +170,9 @@ export default function MyProfile() {
                         />
                     <div className='flex flex-col items-end'>
                         <div className='flex gap-8'>
-                        <div className="mb-4 flex flex-col">
-                            <CustomInput 
-                                type='text'
-                                title='Name'
-                                placeholder='Name'
-                                name="name"
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
-                            {formik.touched.name && formik.errors.name ? (
-                                <ErrorMessage>{formik.errors.name}</ErrorMessage>
-                            ) : null}
-                        </div>    
                         <div className="mb-4  flex flex-col ">
                             <CustomInput
                                 type='text'
-                                // title={t('Email')}
                                 title='Email'
                                 placeholder="Email"
                                 name="email"
@@ -127,8 +186,6 @@ export default function MyProfile() {
                         </div>
                         </div>
                         <div className='flex gap-3'>
-                        {/* <CustomButton title='Change password'/>
-                        <CustomButton title="Update"/> */}
                         <div 
                             className={`w-[134px] h-[45px] text-primary py-1 px-2 whitespace-nowrap text-[14px] 
                             leading-7 font-semibold flex items-center justify-center
@@ -138,15 +195,15 @@ export default function MyProfile() {
                             >
                                 Change password
                             </div>
-                        <div 
+                        <button
+                            type="submit"
                             className={`w-[134px] h-[45px] text-primary py-1 px-2 whitespace-nowrap text-[14px] 
                             leading-7 font-semibold flex items-center justify-center
                             text-text-primary bg-[#3b3bf1] hover:bg-[#131b42] border 
                             border-solid border-white border-opacity-40 cursor-pointer rounded bg-background-third`}
-                            // onClick={() => handleSwitchChain()}
                             >
                                 Update
-                            </div>
+                        </button>
                         </div>
                     </div>
                 </div>

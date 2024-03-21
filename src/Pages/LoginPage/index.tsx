@@ -1,5 +1,5 @@
 import { SignUpData } from '@/Common/interface';
-import { LOGIN } from '@/Services/api';
+import { ADMIN_DETAIL, LOGIN } from '@/Services/api';
 import { IMAGES } from '@/assets/images';
 import { ClosedEyeSvgIcon, EyeSvgIcon } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton';
@@ -23,6 +23,7 @@ function LoginPage() {
     // const [password, setPassword] = useState("");
     const [buttonIsLoading, setButtonIsLoading] = useState(false);
     const [isChnagePassModalOpen, setIsChangePassModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigate()
     // const { mutate, isPending } = useMutation({
     //     mutationFn: (data: SignUpData) => LOGIN(data),
@@ -51,7 +52,7 @@ const formik = useFormik({
     }),
     onSubmit: (values) => {
       login();
-      console.log("values", values);
+      console.log("values", values, loading);
     },
   });
 
@@ -66,26 +67,50 @@ const formik = useFormik({
       };
       const data = await LOGIN(body);
       console.log('data', data);
-      // if (data?.data?.accessToken) {
-      //   localStorage.setItem('accessToken', data.data.accessToken);
-      //   localStorage.setItem('payload', JSON.stringify(data.data.payload));
-      // }      
+
+      if (data?.data?.accessToken) {
       store.dispatch(setAuthToken(data.data.accessToken));
-      store.dispatch(setUserData(data.data.payload));
-      toast.success('Successfully Logged In ');
-      // window.location.href = '/dashboard';
-      navigation("dashboard/manage-airdrops")
+      adminChangePassword();
+      const adminData = store.getState()?.UserData.userData;
+      console.log("adminData::::::::::::::::", adminData);
+      
+      // toast.success('Successfully Logged In ');
+      // navigation("dashboard/manage-airdrops")
+      }
     } catch (error) {
       if(isAxiosError(error)){
         toast.error(error?.response?.data?.message);
+        // adminChangePassword();
       }
     } finally {
       setButtonIsLoading(false);
     }
   };
 
+  const adminChangePassword = async () => {
+    try {
+      setLoading(true);
+      const data = await ADMIN_DETAIL();
+      console.log(data?.data);
+      store.dispatch(setUserData(data.data));
+      if(data.data.is_password_default){
+        // openChangePassModal();
+        toast.success('Successfully Logged In ');
+        navigation("dashboard/manage-airdrops")
+      }else{
+        openChangePassModal();
+      }
+      setLoading(false);
+    } catch (error) {
+      if(isAxiosError(error)){
+        toast.error(error?.response?.data?.message);
+      }
+    }
+  }
+
   const token = store.getState()?.AuthToken?.authToken;
-  if (token) {
+  const adminData = store.getState()?.UserData.userData;
+  if (token && adminData?.is_password_default) {
     return <Navigate to={"dashboard/manage-airdrops"} />;
   }
 
@@ -101,6 +126,10 @@ const formik = useFormik({
   const closeChangePassModal = () => {
     setIsChangePassModalOpen(false);
   }
+
+  // useEffect(() => {
+  //   adminChangePassword();
+  // },[])
     
     return(
         <div
@@ -143,11 +172,11 @@ const formik = useFormik({
                 <ErrorMessage>{formik.errors.password}</ErrorMessage>
               ) : null}
             </div>
-            <div className="" onClick={openChangePassModal}>
+            {/* <div className="" onClick={openChangePassModal}>
                 <p className="text-labelColor text-sm font-normal cursor-pointer">
                   Change Password
                 </p>
-            </div>
+            </div> */}
               <ChangePassModal
               isOpen={isChnagePassModalOpen}
               closeModal={closeChangePassModal}

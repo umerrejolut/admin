@@ -78,3 +78,24 @@ export interface Detail {
   value: string;
   description: string;
 }
+
+export interface USER_DETAILS {
+  id: string,
+  user_name: string,
+  email: string,
+  avatar: string,
+  password: string,
+  role: string,
+  is_password_default: boolean,
+  created_at: string,
+  updated_at: string
+}
+
+  export interface AdminImage {
+    myfile: string | null;
+  }
+
+  export interface UpdateProfile {
+    email: string;
+    image_uri?: File | undefined;
+  }

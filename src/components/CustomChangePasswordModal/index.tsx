@@ -143,6 +143,7 @@ export default function ChangePassModal({ isOpen, closeModal, profile }: ChangeP
                   </div>
                   <form className="-top-20" onSubmit={formik.handleSubmit}>
                     <div className="mt-2 w-full items-center flex flex-col justify-center">
+                      {/* {profile &&  */}
                       <div className="mb-4 w-full">
                         <CustomInput
                           type={showOldPassword ? "text" : "password"}
@@ -175,6 +176,7 @@ export default function ChangePassModal({ isOpen, closeModal, profile }: ChangeP
                           </ErrorMessage>
                         ) : null}
                       </div>
+                      {/* } */}
                       <div className="mb-4 w-full">
                         <CustomInput
                           type={showNewPassword ? "text" : "password"}

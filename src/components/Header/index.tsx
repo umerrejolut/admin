@@ -1,15 +1,15 @@
-import { IMAGES } from "@/assets/images";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import DropMenu from "../DropMenu";
 import { useNavigate } from "react-router-dom";
-import { logoutRedux } from "@/store";
+import { logoutRedux, store } from "@/store";
 
 
 export const Header = () => {
     const [openPopup ,setOpenPopup] = useState(false);
     const { t } = useTranslation();
     const navigation = useNavigate(); 
+    const adminData = store.getState()?.UserData.userData;
 
     const handleOpenPopup = async () => {
         setOpenPopup(!openPopup);
@@ -44,7 +44,7 @@ export const Header = () => {
                 onClick={handleOpenPopup}
             >
                 <div>
-                    <img src={IMAGES.ProfileImage} alt="profile" className="w-[45px] h-[45px]"/>
+                    <img src={adminData?.avatar} alt="profile" className="w-[45px] h-[45px] rounded-full"/>
                 </div>
                 <p className="group-hover:!text-text-secondary">hello Admin</p>
             </div>
