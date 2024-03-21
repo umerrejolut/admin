@@ -1,9 +1,10 @@
 import { SearchIcon } from "@/assets/svg";
-import { AirdropTable,  MatrixData, Row, WalletType } from "@/Common/interface";
+import { AirdropTable, MatrixData, Row, WalletType } from "@/Common/interface";
 import { CustomAddAridrop } from "@/components/CustomAddAirdrop";
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
 import CustomTable from "@/components/CustomTable";
+import { Loader } from "@/components/Loader";
 import { AIRDROP_TRANSACTIONS, MATRIX, SEARCH_WALLETADDRESS } from "@/Services/api";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -14,10 +15,10 @@ function ManageAirdropsPage(){
     const [openAirdrop, setOpenAirdrop] = useState(false);
     const [loading, setLoading] = useState(false);
     const [matrixValue, setMatrixValue] = useState<MatrixData>();
-    const [searchAddress, setSearchAddress] = useState<string | number>()
+    const [searchAddress, setSearchAddress] = useState([])
     const [keyWords,setKeyWords] = useState<string>();
-    // const [details, setDetails] = useState<Detail[]>([])
-    // const [addAddress, setAddAddress] = useState<string>()
+    const [inputValue, setInputValue] = useState<string>('');
+    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
     const [itemsPerPage] = useState(4);
     const headers = [
@@ -90,11 +91,11 @@ function ManageAirdropsPage(){
       }
     }
 
-    const getAirdropTable = async () => {
+    const getAirdropTable = async (selectedValue?: string) => {
       try {
         const body: AirdropTable = {
-          wallet_address:  searchAddress ? searchAddress : "",
-          // ...(searchAddress && { wallet_address: searchAddress }),
+          wallet_address:  selectedValue ? selectedValue : "",
+          // ...(inputValue && { wallet_address: inputValue }),
           limit: 10,
           offset: 0,
         };
@@ -112,14 +113,15 @@ function ManageAirdropsPage(){
     const handleAddressSearch = async (keyWords: string) => {
       setKeyWords(keyWords)
       try {
-        setLoading(true);
+        // setLoading(true);
         const body: WalletType = {
           // wallet_address: selectAddress ? selectAddress : "",
         }
         const response = await SEARCH_WALLETADDRESS(body);
         console.log(response.data);
         setSearchAddress(response.data)
-        setLoading(false);
+        setDropdownOpen(true);
+        // setLoading(false);
       } catch (error) {
         if(isAxiosError(error)){
           toast.error(error?.response?.data?.message);
@@ -127,28 +129,29 @@ function ManageAirdropsPage(){
       }
     }
 
-    // const handleInputChange = (index: number, key: keyof Detail, value: string) => {
-    //   const updatedDetails = [...details];
-    //   updatedDetails[index][key] = value;
-    //   // setDetails(updatedDetails);
-    //   setSearchAddress(searchAddress);
-    // };
+    const handleInputChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setInputValue(value);
+  
+      // Assuming you have a function to call your API
+      // Replace 'callYourAPIFunction' with your actual API call function
+      handleAddressSearch(value);
+    };
 
     useEffect(() => {
       matrix();
       getAirdropTable();
     },[])
 
-    console.log("loading", loading);
-    console.log("matrixValue::::::", matrixValue?.totalAirdropped?._sum?.value);
-    
-    // const handleInputChange = (value: string | number ) => {
-    //   // setSearchAddress(value);
-    //   setAddAddress(value);
-    // }
-    console.log("searchAddress:::::", searchAddress)
+    const handleDropdownSelect = (selectedValue: string) => {
+      setInputValue(selectedValue);
+      setDropdownOpen(false);
+      getAirdropTable(selectedValue);
+    };
     
     return (
+      <>
+      {loading ? <Loader/> : 
         <div className="bg-tableBgColor h-full">
           {/* <Loader loading={isLoading} /> */}
           <div className="flex flex-row items-center justify-between mr-[64px] pt-5">
@@ -182,12 +185,8 @@ function ManageAirdropsPage(){
 
             <CustomInput
               type="search"
-              value={searchAddress}
-              onChange={(e) => {
-                // handleInputChange( e.target.value);
-                handleAddressSearch(e.target.value);
-                // getAirdropTable(e.target.value);
-              }}
+              value={inputValue}
+              onChange={handleInputChange}
             />
               <button className="ml-2" 
               // onClick={getAirdropTable}
@@ -195,21 +194,17 @@ function ManageAirdropsPage(){
                 <SearchIcon/>
               </button>
               </div>
-              {keyWords ? 
-                (
-                <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md">
-                  {searchAddress && searchAddress.map((address: string, idx: number) => (
+              {dropdownOpen && keyWords ? (
+                <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md bottom-0">
+                  {searchAddress.map((item: string, index: number) => (
                     <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
-                    key={idx} 
+                    key={index} 
                     onClick={() => {
-                      setKeyWords("");
-                      // handleInputChange(index, 'wallet_address', address);  
-                      // handleInputChange( address); 
-                      // setAddAddress(address)
-                      getAirdropTable();
+                      handleDropdownSelect(item);
+                      setKeyWords("")
                     }}
                     >
-                      {address}
+                      {item}
                     </div>
                   ))
                 }
@@ -225,6 +220,8 @@ function ManageAirdropsPage(){
           </div>
           {openAirdrop && <CustomAddAridrop handleOpenAddAirdrop={handleOpenAddAirdrop} getAirdropTable={getAirdropTable}/>}
         </div>
+        }
+      </>
       );
 }
 

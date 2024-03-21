@@ -12,7 +12,7 @@ import { setUserData } from '@/store/userDetail';
 import { isAxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
@@ -84,6 +84,11 @@ const formik = useFormik({
     }
   };
 
+  const token = store.getState()?.AuthToken?.authToken;
+  if (token) {
+    return <Navigate to={"dashboard/manage-airdrops"} />;
+  }
+
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -96,9 +101,6 @@ const formik = useFormik({
   const closeChangePassModal = () => {
     setIsChangePassModalOpen(false);
   }
-  
-    console.log("buttonIsLoading:::::", buttonIsLoading);
-    console.log("formik.values.email", formik.values);
     
     return(
         <div
