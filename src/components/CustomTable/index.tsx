@@ -132,7 +132,7 @@ const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
                               header.key === "description",
                           },
                           {
-                            "text-sideBarBg text-start": header.key === "name",
+                            "text-sideBarBg text-center": header.key === "name",
                           },
                           {
                             "w-20": header.key === "no",
