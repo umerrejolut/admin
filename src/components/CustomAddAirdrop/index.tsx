@@ -8,6 +8,8 @@ import { SEARCH_WALLETADDRESS } from "@/Services/api";
 import { Detail, WalletType } from "@/Common/interface";
 import CustomButton from "../CustomButton";
 import ConfirmSuccessModal from "../CustomSuccessPopup";
+import Papa from 'papaparse';
+
 interface CustomAddAridropProps {
   handleOpenAddAirdrop: () => void;
   getAirdropTable: () => void;
@@ -80,6 +82,23 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
       handleAddDetail();
     }, []);
 
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files[0];
+      const userLength = details.length;
+      Papa.parse(file,{
+        header: true,
+        // eslint-disable-next-line
+        complete:(results: any) => {          
+          // setDetails(results.data)
+          if(userLength > 1){
+            setDetails([...details, ...results.data])
+          }else{
+            setDetails(results.data);
+          }
+        }
+      })
+    };
+        
     return (
       <div className="fixed top-0 left-0 w-full h-[100%] flex items-center justify-center bg-gray-800 bg-opacity-50">
         <div className="bg-[#f5f5dc] p-8 rounded shadow-lg w-[700px] h-[80vh] flex text-center items-center justify-start flex-col gap-7">
@@ -202,24 +221,39 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                   </button>
                 </div>
 
-                <p>
+                <p className="my-5">
                   OR
                 </p>
-                <div className="mt-12">
-                   {/* <CustomButton title="Upload a CSV" loading={buttonIsLoading} /> */}
+                <div className="my-5 mx-auto w-[60%]">
+                   {/* <CustomButton title="Upload a CSV" onClick={() => handleFileUpload} /> */}
+                    <label htmlFor="csvUpload" className="cursor-pointer">
+                      <p className={`py-2 px-4 text-white font-bold rounded hover:bg-[#131b42] bg-buttonBg
+                            `}>
+                        Upload a CSV
+                      </p>
+                      <input
+                        id="csvUpload"
+                        type="file"
+                        accept=".csv"
+                        onChange={ handleFileUpload}
+                        style={{ display: 'none' }}
+                      />
+                    </label>
                 </div>
-                <div className="mt-12">
-                  <CustomButton title="AirDrop!" onClick={() => {handleConfirmPopup()}} disabled={!selectAddress ? true : false}/>
+                <div className="my-5 mx-auto w-max">
+                  <CustomButton title="AirDrop!" onClick={() => {handleConfirmPopup()}} 
+                  // disabled={!selectAddress ? true : false}
+                  />
                 </div>
             </div>
             <ConfirmSuccessModal 
-            isOpen={openConfirmPopup}
-            closeModal={closeConfirmModal}
-            totalShards={totalShards ? totalShards : 0}
-            userLength={userLength}
-            tableDetails = {details}
-            handleOpenAddAirdrop = {handleOpenAddAirdrop}
-            getAirdropTable={getAirdropTable}
+              isOpen={openConfirmPopup}
+              closeModal={closeConfirmModal}
+              totalShards={totalShards ? totalShards : 0}
+              userLength={userLength}
+              tableDetails = {details}
+              handleOpenAddAirdrop = {handleOpenAddAirdrop}
+              getAirdropTable={getAirdropTable}
             />
         </div>
       </div>
