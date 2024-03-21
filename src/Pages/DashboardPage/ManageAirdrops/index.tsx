@@ -6,6 +6,7 @@ import CustomInput from "@/components/CustomInput";
 import CustomTable from "@/components/CustomTable";
 import { Loader } from "@/components/Loader";
 import { AIRDROP_TRANSACTIONS, MATRIX, SEARCH_WALLETADDRESS } from "@/Services/api";
+import { shortenAddress } from "@/Utils/helper";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -40,7 +41,8 @@ function ManageAirdropsPage(){
           sortable: true,
           render: (row: Row) => (
             <div className="inline-block text-center max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis">
-              {row && row.users.Wallets[0].wallet_address}
+              {/* {row && row.users.Wallets[0].wallet_address} */}
+              {shortenAddress(row.users.Wallets[0].wallet_address ?? "" , 4)}
             </div>
           ),
         },
