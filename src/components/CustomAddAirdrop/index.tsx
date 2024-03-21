@@ -1,6 +1,6 @@
 import { CloseSvgModal } from "@/assets/svg";
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInput from "../CustomInput";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -76,6 +76,9 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
     const userLength = details.length;
     
     console.log("keyWords", keyWords, loading)
+    useEffect(() => {
+      handleAddDetail();
+    }, []);
 
     return (
       <div className="fixed top-0 left-0 w-full h-[100%] flex items-center justify-center bg-gray-800 bg-opacity-50">

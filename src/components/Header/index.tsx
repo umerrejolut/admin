@@ -24,7 +24,8 @@ export const Header = () => {
 
             case "logout":
                 logoutRedux();
-                navigation("/");
+                // navigation("/");
+                window.location.href = "/";
                 break
         
             default:

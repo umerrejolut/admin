@@ -70,7 +70,7 @@ export default function MyProfile() {
 
     return (
         <div className="bg-tableBgColor h-full">
-            <p className="font-medium text-lg text-headingColor">My Profile</p>
+            <p className="font-semibold text-[24px] text-headingColor p-5">My Profile</p>
             <div className="bg-bgColor p-3 rounded-xl shadow-tablerShadow">
                 <form onSubmit={formik.handleSubmit}>
                 <div className='flex items-center justify-around bg-white rounded py-8'>
