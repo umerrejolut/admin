@@ -91,7 +91,7 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
                   </div>
                   <div className="flex gap-3">
                     <CustomButton title="Cancel" onClick={closeModal} />
-                    <CustomButton title="Approve" onClick={approveUser} />
+                    <CustomButton title="Approve" onClick={approveUser} disabled={userLength > 0 ? false : true}/>
                   </div>
                   </div>
                 </Dialog.Panel>
