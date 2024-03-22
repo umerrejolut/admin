@@ -88,7 +88,9 @@ export interface ParamsType {
 export interface WalletType {
   wallet_address: string | number,
 }
-
+export interface AirdropData {
+  airdropData: Detail[];
+}
 export interface Detail {
   wallet_address: string;
   value: number | null;

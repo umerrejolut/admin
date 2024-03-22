@@ -224,7 +224,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           type="number"
                           value={detail.value}
                           onChange={(e) => 
-                              handleInputChange(index, 'value', e.target.value)
+                              handleInputChange(index, 'value', parseInt(e.target.value))
                           }
                           />
                         </td>

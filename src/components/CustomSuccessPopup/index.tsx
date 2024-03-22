@@ -31,7 +31,8 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
               description: item.description || "airdrop", // Default value if description is not provided
               value: item.value || 0 // Convert value to integer, default to 0 if not provided
           }));
-            const response = await ADD_AIRDROP_USER(formattedData);
+            const response = await ADD_AIRDROP_USER({airdropData: formattedData});
+
             console.log("RESponse::::", response.data)
             toast.success("Airdrop Added Successfully")
             getAirdropTable()
