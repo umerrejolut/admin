@@ -91,7 +91,7 @@ export interface WalletType {
 
 export interface Detail {
   wallet_address: string;
-  value: number;
+  value: number | null;
   description: string;
 }
 
