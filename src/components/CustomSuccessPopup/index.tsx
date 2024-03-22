@@ -24,7 +24,9 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
         try {
             setLoading(true);
             // const payload = JSON.stringify(tableDetails);
-            const formattedData = tableDetails.map(item => ({
+            const filteredDetails = tableDetails.filter(item => item.wallet_address);
+
+            const formattedData = filteredDetails.map(item => ({
               wallet_address: item.wallet_address,
               description: item.description || "airdrop", // Default value if description is not provided
               value: parseInt(item.value) || 0 // Convert value to integer, default to 0 if not provided
