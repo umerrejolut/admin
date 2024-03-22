@@ -9,7 +9,7 @@ export const Header = () => {
     const [openPopup ,setOpenPopup] = useState(false);
     const { t } = useTranslation();
     const navigation = useNavigate(); 
-    const adminData = store.getState()?.UserData.userData;
+    const adminData = store.getState()?.UserData.userData;    
 
     const handleOpenPopup = async () => {
         setOpenPopup(!openPopup);
@@ -46,7 +46,7 @@ export const Header = () => {
                 <div>
                     <img src={adminData?.avatar} alt="profile" className="w-[45px] h-[45px] rounded-full"/>
                 </div>
-                <p className="group-hover:!text-text-secondary">hello Admin</p>
+                <p className="group-hover:!text-text-secondary">{adminData?.user_name}</p>
             </div>
             {openPopup && 
                 <DropMenu
