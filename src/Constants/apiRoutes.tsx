@@ -1,7 +1,6 @@
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
-// const BASE_URL = import.meta.env.REACT_APP_FRONTEND_URL;
-// const BASE_URL = process.env.REACT_APP_FRONTEND_URL;
+// const BASE_URL = import.meta.env.VITE_SERVER_URL;
+const BASE_URL = 'https://black-pass-dapp.azurewebsites.net';
 
 export const API_ROUTES = {
   SIGNUP: `${BASE_URL}/auth/signup`,
