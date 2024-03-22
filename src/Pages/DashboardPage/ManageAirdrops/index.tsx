@@ -119,6 +119,7 @@ function ManageAirdropsPage(){
         // setLoading(true);
         const body: WalletType = {
           // wallet_address: selectAddress ? selectAddress : "",
+          wallet_address: inputValue ? inputValue : "",
         }
         const response = await SEARCH_WALLETADDRESS(body);
         console.log(response.data);

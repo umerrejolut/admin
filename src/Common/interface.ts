@@ -6,7 +6,7 @@ export interface SignUpData {
 }
 
 export interface ChangeNewPasswordData {
-  // oldPassword: string;
+  old_password: string;
   new_password: string;
   confirm_new_password: string;
 }
@@ -29,6 +29,22 @@ export interface RowData {
   location: string;
   createdAt: string;
   email: string;
+  // eslint-disable-next-line
+  id: any;
+  // eslint-disable-next-line
+  item: any;
+  description: string; // Adding missing property
+  // users?: any; // Adding missing property
+  users: { // Make 'users' property mandatory
+    user_name: string;
+    Wallets: {
+      wallet_address: string;
+    }[];
+  };
+  // eslint-disable-next-line
+  value: any; // Adding missing property
+  // eslint-disable-next-line
+  created_at: any; 
   // Define other properties as needed
 }
 export interface Row {
@@ -75,7 +91,7 @@ export interface WalletType {
 
 export interface Detail {
   wallet_address: string;
-  value: string;
+  value: number;
   description: string;
 }
 
@@ -97,5 +113,5 @@ export interface USER_DETAILS {
 
   export interface UpdateProfile {
     email: string;
-    image_uri?: File | undefined;
+    image_uri?: File ;
   }
