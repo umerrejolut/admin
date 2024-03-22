@@ -21,12 +21,10 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: yarn install, build
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-
+         yarn install
+         yarn build
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -58,5 +56,5 @@ jobs:
         with:
           app-name: 'black-pass-admin-frontend'
           slot-name: 'Production'
-          package: .
+          package: ./build
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1D6FE49242664850BE26EE04FB27A36B }}
