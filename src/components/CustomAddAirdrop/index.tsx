@@ -29,12 +29,16 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
 
     const handleAddDetail = () => {
         // Function to add a new row of detail
-        const newDetail = {
-          wallet_address:'',
-          value: '',
-          description: '',
-        };
-        setDetails([...details, newDetail]);
+        // const isEmptyAddressExist = details.some(detail => detail.wallet_address === '');
+
+        // if(!isEmptyAddressExist){
+          const newDetail = {
+            wallet_address:'',
+            value: '',
+            description: '',
+          };
+          setDetails([...details, newDetail]);
+        // }
       };
 
     const handleInputChange = (index: number, key: keyof Detail, value: string) => {
@@ -74,8 +78,11 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
 
       console.log("details::", details);
 
-    const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
-    const userLength = details.length;
+    // const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
+    const totalShards = details.reduce((acc, curr) => acc + (parseInt(curr.value) || 0), 0);
+
+    const filteredDetails = details.filter(item => item.wallet_address);
+    const userLength = filteredDetails.length;
     
     console.log("keyWords", keyWords, loading)
     useEffect(() => {

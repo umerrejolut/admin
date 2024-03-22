@@ -85,7 +85,6 @@ function ManageAirdropsPage(){
       try {
         setLoading(true);
         const response = await MATRIX();
-        console.log("response::::::", response);
         setMatrixValue(response?.data);
         setLoading(false);
       } catch (error) {
