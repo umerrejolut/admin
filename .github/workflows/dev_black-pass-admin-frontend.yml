@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'black-pass-admin-frontend'
           slot-name: 'Production'
-          package: ./build
+          package: ./dist
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1D6FE49242664850BE26EE04FB27A36B }}
