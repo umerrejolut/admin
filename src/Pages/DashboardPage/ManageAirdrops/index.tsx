@@ -10,6 +10,7 @@ import { shortenAddress } from "@/Utils/helper";
 import { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import moment from 'moment';
 
 function ManageAirdropsPage(){
     const [airdropUserList, setAirdropUserList] = useState([]);
@@ -60,7 +61,8 @@ function ManageAirdropsPage(){
          sortable: true,
          render: (row: Row) => (
             <div className="inline-block text-center max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis">
-              {row && row.created_at}
+              {/* {row && row.created_at} */}
+              {moment(row && row.created_at).format("MM/DD/YYYY hh:mm")}
             </div>
          )
         },
