@@ -83,6 +83,24 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
 
     const filteredDetails = details.filter(item => item.wallet_address);
     const userLength = filteredDetails.length;
+
+    function checkAddressLength(data) {
+      try {
+        let isButtonEnabled = false;
+        for (const item of data) {
+            if (item.wallet_address.length === 42) {
+                isButtonEnabled = true;
+                break; 
+            }
+        }
+        return isButtonEnabled;
+      } catch (error) {
+        if(isAxiosError(error)){
+          toast.error("please add the correct wallet address")
+        }
+      }
+  }
+  const isButtonEnabled = checkAddressLength(details);  
     
     console.log("keyWords", keyWords, loading)
     useEffect(() => {
@@ -99,8 +117,10 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
           // setDetails(results.data)
           if(userLength > 1){
             setDetails([...details, ...results.data])
+            checkAddressLength([...details, ...results.data])
           }else{
             setDetails(results.data);
+            checkAddressLength(results.data)
           }
         }
       })
@@ -250,6 +270,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                 <div className="my-5 mx-auto w-max">
                   <CustomButton title="AirDrop!" onClick={() => {handleConfirmPopup()}} 
                   // disabled={!selectAddress ? true : false}
+                  disabled={!isButtonEnabled ? true : false}
                   />
                 </div>
             </div>
