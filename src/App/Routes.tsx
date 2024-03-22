@@ -14,6 +14,7 @@ import LoginPage from '@/Pages/LoginPage';
 import DashboardLayout from '@/Pages/DashboardPage';
 import ManageAirdropsPage from '@/Pages/DashboardPage/ManageAirdrops';
 import MyProfile from '@/Pages/MyProfile';
+import PrivateRoute from './PrivateRoute';
 
 const RouterOutlet = () => {
   const { isConnected } = useAccount();
@@ -64,9 +65,9 @@ const RouterOutlet = () => {
                 <Outlet />
             }
           >
-            <Route index element={<ManageAirdropsPage />} />
+            <Route index element={<PrivateRoute Component={ManageAirdropsPage}/>} />
           </Route>
-          <Route path='profile' element={<MyProfile/>}/>
+          <Route path='profile' element={<PrivateRoute Component={MyProfile}/>}/>
         </Route>
         {/* </Route> */}
         {/* </Route> */}

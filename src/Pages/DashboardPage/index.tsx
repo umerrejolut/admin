@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 // import ChangePassModal from "../../components/CustomChangePasswordModal";
 import { ManageEstateSvgIcon } from "@/assets/svg";
 import { Header } from "@/components/Header";
+import { store } from "@/store";
 
 function DashboardLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -22,6 +23,10 @@ function DashboardLayout({ children }: { children: ReactNode }) {
   // function closeChangePassModal() {
   //   setIsChangePassModalOpen(false);
   // }
+  const token = store.getState()?.AuthToken?.authToken
+  if(!token){
+    window.location.href = "/";
+  }
   const routes = [
     {
       id: 1,
