@@ -38,7 +38,7 @@ export default function MyProfile() {
         onSubmit: async (values) => {
           console.log("values", values, loading);
         //   uploadProfile(profileImage)
-          updateProfile(values.email, values.email)
+          updateProfile(values.email)
         //   try {
         //     toast.info("I am callllll")
         //     setLoading(true);
@@ -123,7 +123,7 @@ export default function MyProfile() {
         }
     }
 
-    const updateProfile = async (email: string, imageLink?: string | null | undefined) => {
+    const updateProfile = async (email: string, imageLink?: File) => {
         try {
             setLoading(true);
             const body: UpdateProfile = {

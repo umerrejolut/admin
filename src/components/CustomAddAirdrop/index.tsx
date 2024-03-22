@@ -34,16 +34,17 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
         // if(!isEmptyAddressExist){
           const newDetail = {
             wallet_address:'',
-            value: '',
+            value: 0,
             description: '',
           };
           setDetails([...details, newDetail]);
         // }
       };
 
-    const handleInputChange = (index: number, key: keyof Detail, value: string) => {
+    const handleInputChange = (index: number, key: keyof Detail, value: number) => {
         // Function to handle input changes for a specific row
-        const updatedDetails = [...details];
+        // eslint-disable-next-line
+        const updatedDetails: any = [...details];
         updatedDetails[index][key] = value;
         setDetails(updatedDetails);
       };
@@ -53,7 +54,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
         try {
           setLoading(true);
           const body: WalletType = {
-            // wallet_address: selectAddress ? selectAddress : "",
+            wallet_address: selectAddress ? selectAddress : "",
           }
           const response = await SEARCH_WALLETADDRESS(body);
           console.log(response.data);
@@ -79,12 +80,13 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
       console.log("details::", details);
 
     // const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
-    const totalShards = details.reduce((acc, curr) => acc + (parseInt(curr.value) || 0), 0);
+    const totalShards = details.reduce((acc, curr) => acc + (curr.value || 0), 0);
 
     const filteredDetails = details.filter(item => item.wallet_address);
     const userLength = filteredDetails.length;
 
-    function checkAddressLength(data) {
+    // eslint-disable-next-line
+    function checkAddressLength(data: any) {
       try {
         let isButtonEnabled = false;
         for (const item of data) {
@@ -108,7 +110,9 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
     }, []);
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files[0];
+      // eslint-disable-next-line
+      const [file] : any = e.target.files ;
+      
       const userLength = details.length;
       Papa.parse(file,{
         header: true,
@@ -191,7 +195,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           // value={typeof detail === "object" ? detail.walletAddress : detail}
                           onChange={(e) => {
                             handleAddressSearch(e.target.value);
-                            handleInputChange(index, 'wallet_address', e.target.value)
+                            handleInputChange(index, 'wallet_address', +e.target.value)
                             
                           }}
                           />   
@@ -204,7 +208,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                               onClick={(e) => {
                                 setSelectAddress(address), 
                                 setKeyWords("");  
-                                handleInputChange(index, 'wallet_address', address);
+                                handleInputChange(index, 'wallet_address', +address);
                                 e.preventDefault();
                               }}
                               >
@@ -220,7 +224,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           type="number"
                           value={detail.value}
                           onChange={(e) => 
-                              handleInputChange(index, 'value', e.target.value)
+                              handleInputChange(index, 'value', +e.target.value)
                           }
                           />
                         </td>
@@ -229,7 +233,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           type="text"
                           value={detail.description}
                           onChange={(e) => 
-                              handleInputChange(index, 'description', e.target.value)
+                              handleInputChange(index, 'description', +e.target.value)
                           }
                           />
                         </td>
