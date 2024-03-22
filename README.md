@@ -1,3 +1,3 @@
 # react-boilerplate
 
-ReactJs ready to use boilerplate.
+ReactJs ready to use boilerplate..
