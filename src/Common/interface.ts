@@ -75,7 +75,7 @@ export interface MatrixData {
 }
 
 export interface AirdropTable {
-  wallet_address: string | number,
+  wallet_address?: string | number,
   limit: number,
   offset: number,
 } 

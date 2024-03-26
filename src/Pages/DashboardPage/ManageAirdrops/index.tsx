@@ -97,7 +97,8 @@ function ManageAirdropsPage(){
     const getAirdropTable = async (selectedValue?: string) => {
       try {
         const body: AirdropTable = {
-          wallet_address:  selectedValue ? selectedValue : "",
+          // wallet_address:  selectedValue ? selectedValue : "",
+          ...(selectedValue ? {wallet_address: selectedValue} : {}),
           limit: 10,
           offset: 0,
         };
@@ -139,7 +140,8 @@ function ManageAirdropsPage(){
   
       // Assuming you have a function to call your API
       // Replace 'callYourAPIFunction' with your actual API call function
-      handleAddressSearch(value);
+      handleAddressSearch(value);      
+      getAirdropTable()
     };
 
     useEffect(() => {
