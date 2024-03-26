@@ -57,7 +57,8 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
         try {
           setLoading(true);
           const body: WalletType = {
-            wallet_address: selectAddress ? selectAddress : "",
+            // wallet_address: selectAddress ? selectAddress : "",
+            wallet_address: keyWords,
           }
           const response = await SEARCH_WALLETADDRESS(body);
           console.log(response.data);
@@ -202,7 +203,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                             
                           }}
                           />   
-                          {keyWords && activeDropdownIndex === index ? 
+                          {keyWords && activeDropdownIndex === index && searchAddress.length > 0? 
                           (
                           <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md z-10">
                             {searchAddress && searchAddress.map((address: string, idx: number) => (
