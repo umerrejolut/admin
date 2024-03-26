@@ -13,11 +13,12 @@ import Papa from 'papaparse';
 interface CustomAddAridropProps {
   handleOpenAddAirdrop: () => void;
   getAirdropTable: () => void;
+  matrix:() => void;
 }
 
 
 
-export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: CustomAddAridropProps) => {
+export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}: CustomAddAridropProps) => {
     // const [currentPage, setCurrentPage] = useState(1);
     const [details, setDetails] = useState<Detail[]>([]);
     const [loading, setLoading] = useState(false);
@@ -288,6 +289,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
               tableDetails = {details}
               handleOpenAddAirdrop = {handleOpenAddAirdrop}
               getAirdropTable={getAirdropTable}
+              matrix={matrix}
             />
         </div>
       </div>
