@@ -184,7 +184,7 @@ function ManageAirdropsPage(){
               </div>
             </div>
           </div>
-          <div className=" flex w-[40%] mx-8">
+          <div className=" flex w-[40%] mx-8 relative">
             <div className="relative flex">
 
             <CustomInput
@@ -199,7 +199,7 @@ function ManageAirdropsPage(){
               </button>
               </div>
               {dropdownOpen && keyWords && searchAddress.length > 0? (
-                <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md bottom-0">
+                <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[auto] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md top-[51px]">
                   {searchAddress.map((item: string, index: number) => (
                     <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
                     key={index} 
