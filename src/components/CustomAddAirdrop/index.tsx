@@ -86,6 +86,14 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
     // const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
     // eslint-disable-next-line
     const totalShards = details.reduce((acc, curr: any) => acc + (parseInt(curr.value) || 0), 0);
+    const hasZeroValue = details.some(item => {
+      if (item.value === null || item.value === undefined) {
+      console.log('Found item with null value:', item);
+      return false;
+      }
+      return (item.value ?? 0 ) <= 0;
+      });
+    
     const filteredDetails = details.filter(item => item.wallet_address);
     const userLength = filteredDetails.length;
 
@@ -106,7 +114,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
         }
       }
   }
-  const isButtonEnabled = checkAddressLength(details);  
+  const isButtonEnabled = checkAddressLength(details) && !hasZeroValue;  
     
     console.log("keyWords", keyWords, loading)
     useEffect(() => {
