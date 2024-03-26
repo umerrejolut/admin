@@ -15,9 +15,10 @@ interface ConfirmSuccessModalProps {
     tableDetails: Detail[];
     handleOpenAddAirdrop: () => void;
     getAirdropTable: () => void;
+    matrix:() => void;
 }
 
-export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, totalShards, tableDetails, handleOpenAddAirdrop, getAirdropTable  }: ConfirmSuccessModalProps) {
+export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, totalShards, tableDetails, handleOpenAddAirdrop, getAirdropTable, matrix  }: ConfirmSuccessModalProps) {
     const [loading, setLoading] = useState(false);
 
     const approveUser = async() => {
@@ -36,6 +37,7 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
             console.log("RESponse::::", response.data)
             toast.success("Airdrop Added Successfully")
             getAirdropTable()
+            matrix()
             closeModal()
             handleOpenAddAirdrop()
             setLoading(false);

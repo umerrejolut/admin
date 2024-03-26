@@ -223,7 +223,7 @@ function ManageAirdropsPage(){
               itemsPerPage={itemsPerPage}
             />
           </div>
-          {openAirdrop && <CustomAddAridrop handleOpenAddAirdrop={handleOpenAddAirdrop} getAirdropTable={getAirdropTable}/>}
+          {openAirdrop && <CustomAddAridrop handleOpenAddAirdrop={handleOpenAddAirdrop} getAirdropTable={getAirdropTable} matrix={matrix}/>}
         </div>
         }
       </>
