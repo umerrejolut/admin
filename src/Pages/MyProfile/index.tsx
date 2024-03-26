@@ -2,8 +2,9 @@ import { UpdateProfile } from '@/Common/interface';
 import ChangePassModal from '@/components/CustomChangePasswordModal';
 import CustomInput from '@/components/CustomInput';
 import ErrorMessage from '@/components/ErrorMessage';
-import { UPDATE_PROFILE, UPLOAD_PROFILE } from '@/Services/api';
+import { ADMIN_DETAIL, UPDATE_PROFILE, UPLOAD_PROFILE } from '@/Services/api';
 import { store } from '@/store';
+import { setUserData } from '@/store/userDetail';
 import { isAxiosError } from 'axios';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
@@ -20,7 +21,7 @@ export default function MyProfile() {
     const formik = useFormik({
         initialValues: {
             myfile: adminData?.avatar ? adminData.avatar : null,
-            email: "",
+            email: "" ,
           },
         enableReinitialize: true,
         validationSchema: Yup.object({
@@ -35,48 +36,24 @@ export default function MyProfile() {
             
           
         }),
-        onSubmit: async (values) => {
+        onSubmit: async (values, {resetForm}) => {
           console.log("values", values, loading);
         //   uploadProfile(profileImage)
-          updateProfile(values.email)
-        //   try {
-        //     toast.info("I am callllll")
-        //     setLoading(true);
-        //     const uploadedImageUrl = await uploadProfile(profileImage);
-        //     console.log("uploadedImageUrl",uploadedImageUrl);
-            
-        //     // Then update profile with email and uploaded image link
-        //     await updateProfile(values.email, uploadedImageUrl);
-        //     setLoading(false);
-        //   } catch (error) {
-        //     setLoading(false);
-        //     if(isAxiosError(error)){
-        //         toast.error(error?.response?.data.message)
-        //     }
-        //   }
+          updateProfile();
+          resetForm({
+            values: {
+              myfile: adminData?.avatar ? adminData.avatar : null,
+              email: "",
+            },
+          });
         },
       });
 
     const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
-        // const selectedFiles = event.target.files;
-        // if(selectedFiles){
-        //     const filesArray = Array.from(selectedFiles);
-        //     setProfileImage(filesArray);
-        //     uploadProfile(filesArray)
-        // }
         if (file) {
-            // setProfileImage( file);
-            // formik.setFieldValue('myfile', file)
-            // const reader = new FileReader();
-            // reader.onload = (e: any) => {
-            //     setProfileImage(e.target.value);
-            //     uploadProfile(e.target.value)
-            // }
             setProfileImage(file);
             uploadProfile(file)
-            // reader.readAsDataURL(file)
-            // uploadProfile(file)
         }
     };
 
@@ -97,15 +74,6 @@ export default function MyProfile() {
         try {
             // eslint-disable-next-line
             const formData: any = new FormData();
-            // const fileObject = {
-            //     fieldname: 'myfile',
-            //     originalname: file.name,
-            //     encoding: '7bit',
-            //     mimetype: file.type,
-            //     buffer: file[0],
-            //     size: file.size
-            // };
-                // formData.append('myfile', JSON.stringify(fileObject));
                 if(file ){
                     formData.append('myfile', file);
                     console.log("formik.values.myfile", formik.values.myfile);
@@ -114,8 +82,9 @@ export default function MyProfile() {
                 // formData.append('myfile', file);
                 setLoading(true);
                 const response = await UPLOAD_PROFILE(formData);
+                updateHeaderProfile()
                 setLoading(false);
-                updateProfile(formik.values.email, response.data.imageLink);
+                toast.success(response?.data?.message);
                 return response.data.imageLink; 
         } catch (error) {
             setLoading(false);
@@ -123,16 +92,18 @@ export default function MyProfile() {
         }
     }
 
-    const updateProfile = async (email: string, imageLink?: File) => {
+    const updateProfile = async (imageLink?: File) => {
         try {
             setLoading(true);
             const body: UpdateProfile = {
-                email: email,
+                email: formik.values.email,
                 image_uri: imageLink,
             }
             const response = await UPDATE_PROFILE(body);
+            updateHeaderProfile()
             setLoading(false);
             console.log("response::::", response);
+            toast.success(response?.data?.message);
         } catch (error) {
             setLoading(false);
             if(isAxiosError(error)){
@@ -140,7 +111,20 @@ export default function MyProfile() {
             }
         }
     }
-    console.log("formik.values:::::::::::", formik.values)
+
+    const updateHeaderProfile = async () => {
+        try {
+          setLoading(true);
+          const data = await ADMIN_DETAIL();
+          console.log(data?.data);
+          store.dispatch(setUserData(data.data));
+          setLoading(false);
+        } catch (error) {
+          if(isAxiosError(error)){
+            toast.error(error?.response?.data?.message);
+          }
+        }
+      }
 
     return (
         <div className="bg-tableBgColor h-full">
@@ -156,9 +140,14 @@ export default function MyProfile() {
                                     className='w-[124px] h-[124px] cursor-pointer rounded-full'
                                 />
                             ) : (
-                                <div className="w-[124px] h-[124px] cursor-pointer bg-gray-200 flex items-center justify-center rounded-full">
-                                    Upload Image
-                                </div>
+                                // <div className="w-[124px] h-[124px] cursor-pointer bg-gray-200 flex items-center justify-center rounded-full">
+                                //     Upload Image
+                                // </div>
+                                <img
+                                src={adminData?.avatar} // Use createObjectURL to display selected image
+                                alt='profile'
+                                className='w-[124px] h-[124px] cursor-pointer rounded-full'
+                            />
                             )}
                         </div>
                         <input
@@ -199,8 +188,13 @@ export default function MyProfile() {
                             type="submit"
                             className={`w-[134px] h-[45px] text-primary py-1 px-2 whitespace-nowrap text-[14px] 
                             leading-7 font-semibold flex items-center justify-center
-                            text-text-primary bg-[#3b3bf1] hover:bg-[#131b42] border 
+                            text-text-primary bg-[#3b3bf1]  hover:bg-[#131b42] border 
+                            ${formik.values.email === adminData?.email || !formik.values.email ? 
+                                "!bg-checkBoxBorder hover:bg-modalBorder" :
+                                "bg-[#3b3bf1]"
+                            }
                             border-solid border-white border-opacity-40 cursor-pointer rounded bg-background-third`}
+                            disabled={formik.values.email === adminData?.email || !formik.values.email}
                             >
                                 Update
                         </button>
