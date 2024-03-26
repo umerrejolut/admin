@@ -191,7 +191,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                       {details.map((detail: any, index: number) => (
                       <tr key={index}>
                         
-                        <td>
+                        <td className="relative">
                           <CustomInput
                           type="search"
                           value={detail.wallet_address}
@@ -205,7 +205,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                           />   
                           {keyWords && activeDropdownIndex === index && searchAddress.length > 0? 
                           (
-                          <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md z-10">
+                          <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[auto] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md z-10">
                             {searchAddress && searchAddress.map((address: string, idx: number) => (
                               <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
                               key={idx} 
