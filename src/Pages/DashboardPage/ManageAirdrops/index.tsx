@@ -98,7 +98,6 @@ function ManageAirdropsPage(){
       try {
         const body: AirdropTable = {
           wallet_address:  selectedValue ? selectedValue : "",
-          // ...(inputValue && { wallet_address: inputValue }),
           limit: 10,
           offset: 0,
         };
@@ -119,7 +118,8 @@ function ManageAirdropsPage(){
         // setLoading(true);
         const body: WalletType = {
           // wallet_address: selectAddress ? selectAddress : "",
-          wallet_address: inputValue ? inputValue : "",
+          // wallet_address: inputValue ? inputValue : "",
+          wallet_address: keyWords,
         }
         const response = await SEARCH_WALLETADDRESS(body);
         console.log(response.data);
@@ -161,12 +161,12 @@ function ManageAirdropsPage(){
           <div className="flex flex-row items-center justify-between mr-[64px] pt-5">
             <div className=" w-[300px]rounded p-6 shadow-md border-2 border-solid border-gray-400 border-lightprimary relative top-8 left-8 height-full text-center">
                 <h2 className="font-medium text-lg text-headingColor">Total Shards Airdropped</h2>
-                <p className="font-bold text-[24px] text-headingColor">{matrixValue?.airdroppedUsers}</p>
+                <p className="font-bold text-[24px] text-headingColor">{matrixValue?.totalAirdropped?._sum?.value ? matrixValue?.totalAirdropped?._sum?.value : "0"}</p>
             </div>
 
             <div className="w-[300px] rounded p-6 shadow-md border-2 border-solid border-gray-400 border-lightprimary relative top-8 left-8 height-full text-center">
                 <h2 className="font-medium text-lg text-headingColor">Total Airdropped Users</h2>
-                <p className="font-bold text-[24px] text-headingColor">{matrixValue?.totalAirdropped?._sum?.value ? matrixValue?.totalAirdropped?._sum?.value : "0"}</p>
+                <p className="font-bold text-[24px] text-headingColor">{matrixValue?.airdroppedUsers}</p>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between mx-8 mt-[48px]">
@@ -190,7 +190,7 @@ function ManageAirdropsPage(){
             <CustomInput
               type="search"
               value={inputValue}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange(e)}
             />
               <button className="ml-2" 
               // onClick={getAirdropTable}
@@ -198,7 +198,7 @@ function ManageAirdropsPage(){
                 <SearchIcon/>
               </button>
               </div>
-              {dropdownOpen && keyWords ? (
+              {dropdownOpen && keyWords && searchAddress.length > 0? (
                 <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md bottom-0">
                   {searchAddress.map((item: string, index: number) => (
                     <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
@@ -212,8 +212,9 @@ function ManageAirdropsPage(){
                     </div>
                   ))
                 }
-                </div>): null
-              }
+                </div>
+                ): null
+              } 
           </div>
           <div>
             <CustomTable

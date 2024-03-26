@@ -26,6 +26,7 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
     const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
     // const [addressSet, setAddressSet] = useState<string[]>([]);
     const [keyWords, setKeyWords] = useState<string>();
+    const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(null);
 
     const handleAddDetail = () => {
         // Function to add a new row of detail
@@ -49,8 +50,9 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
         setDetails(updatedDetails);
       };
 
-      const handleAddressSearch = async (keyWords: string) => {
+      const handleAddressSearch = async (keyWords: string, index: number) => {
         setKeyWords(keyWords)
+        setActiveDropdownIndex(keyWords ? index : null);          
         try {
           setLoading(true);
           const body: WalletType = {
@@ -194,14 +196,14 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable}: Custom
                           // value={detail == "" ? "" : typeof detail == "object" ? detail.walletAddress : detail}
                           // value={typeof detail === "object" ? detail.walletAddress : detail}
                           onChange={(e) => {
-                            handleAddressSearch(e.target.value);
+                            handleAddressSearch(e.target.value, index);
                             handleInputChange(index, 'wallet_address', e.target.value)
                             
                           }}
                           />   
-                          {keyWords ? 
+                          {keyWords && activeDropdownIndex === index ? 
                           (
-                          <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md">
+                          <div className="flex flex-col items-center gap-1 bg-[#2c2a2a] w-[27%] h-[300px] overflow-scroll absolute p-2 rounded-md shadow-md z-10">
                             {searchAddress && searchAddress.map((address: string, idx: number) => (
                               <div className="flex items-center justify-center gap-1 w-full text-primary p-2 ml-3 text-[12px] cursor-pointer" 
                               key={idx} 
