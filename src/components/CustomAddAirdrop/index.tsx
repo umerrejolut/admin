@@ -84,8 +84,8 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
       console.log("details::", details);
 
     // const totalShards = details.reduce((acc, curr) => acc + parseInt(curr.value), 0);
-    const totalShards = details.reduce((acc, curr) => acc + (curr.value || 0), 0);
-
+    // eslint-disable-next-line
+    const totalShards = details.reduce((acc, curr: any) => acc + (parseInt(curr.value) || 0), 0);
     const filteredDetails = details.filter(item => item.wallet_address);
     const userLength = filteredDetails.length;
 
