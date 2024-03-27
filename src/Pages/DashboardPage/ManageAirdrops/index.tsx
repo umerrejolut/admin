@@ -23,6 +23,7 @@ function ManageAirdropsPage(){
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     const [offset, setOffset] = useState(1);
     const [currentOffset, setCurrentOffset] = useState(0);
+    const [message, setMessage] = useState<string>();
 
     const [itemsPerPage] = useState(10);
     const headers = [
@@ -100,17 +101,20 @@ function ManageAirdropsPage(){
       try {
         const body: AirdropTable = {
           ...(selectedValue ? {wallet_address: selectedValue} : {}),
+          // wallet_address: selectedValue ? selectedValue : "",
           limit: 10,
           offset: currentOffset ?? 0,
         };
         // setLoading(true);
         const response = await AIRDROP_TRANSACTIONS(body);
+        setMessage('');
         setAirdropUserList(response.data.history);
         setOffset(response.data.total)
         // setLoading(false);
       } catch (error) {
         if (isAxiosError(error)) {
-          toast.error(error?.response?.data?.message);
+          // toast.error(error?.response?.data?.message);
+          setMessage(error?.response?.data?.message)
         }
       }
     };
@@ -145,7 +149,7 @@ function ManageAirdropsPage(){
       // Assuming you have a function to call your API
       // Replace 'callYourAPIFunction' with your actual API call function
       handleAddressSearch(value);      
-      getAirdropTable()
+      getAirdropTable(value)
     };
 
     useEffect(() => {
@@ -157,7 +161,7 @@ function ManageAirdropsPage(){
       setInputValue(selectedValue);
       setDropdownOpen(false);
       getAirdropTable(selectedValue);
-    };
+    };    
 
     useEffect(() => {
       getAirdropTable()
@@ -241,6 +245,7 @@ function ManageAirdropsPage(){
               totalCount={offset}
               setCurrentOffset={setCurrentOffset}
               handlePageChange={handlePageChange}
+              message={message}
             />
           </div>
           {openAirdrop && <CustomAddAridrop handleOpenAddAirdrop={handleOpenAddAirdrop} getAirdropTable={getAirdropTable} matrix={matrix}/>}

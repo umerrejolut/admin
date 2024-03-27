@@ -17,9 +17,10 @@ interface CustomTableProps {
   totalCount: number;
   setCurrentOffset: (offset: number) => void;
   handlePageChange: (page: number) => void;
+  message?: string;
 }
 
-const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange}: CustomTableProps) => {
+const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange, message}: CustomTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   // const [sortConfig, setSortConfig] = useState<{ key: string | null, direction: string }>({ key: null, direction: "" });
 
@@ -130,7 +131,7 @@ const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
+            {!message ? data.map((item, index) => (
                     <tr key={item.id}>
                     {headers.map((header) => (
                       <td
@@ -165,7 +166,13 @@ const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange
                       </td>
                     ))}
                   </tr>
-            ))}
+            )) : (
+              <tr>
+                <td colSpan={headers.length} className="text-center capitalize">
+                  <h2 className="font-medium text-lg text-headingColor pt-4">{message}</h2>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
