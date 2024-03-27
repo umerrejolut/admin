@@ -29,7 +29,7 @@ export default function ConfirmSuccessModal({ isOpen, closeModal, userLength, to
 
             const formattedData = filteredDetails.map(item => ({
               wallet_address: item.wallet_address,
-              description: item.description || "airdrop", // Default value if description is not provided
+              description: item.description || "NA", // Default value if description is not provided
               value: item.value || 0 // Convert value to integer, default to 0 if not provided
           }));
             const response = await ADD_AIRDROP_USER({airdropData: formattedData});
