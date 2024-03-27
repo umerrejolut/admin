@@ -21,8 +21,10 @@ function ManageAirdropsPage(){
     const [keyWords,setKeyWords] = useState<string>();
     const [inputValue, setInputValue] = useState<string>('');
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+    const [offset, setOffset] = useState(1);
+    const [currentOffset, setCurrentOffset] = useState(0);
 
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(10);
     const headers = [
         {
          key: "username",
@@ -97,14 +99,14 @@ function ManageAirdropsPage(){
     const getAirdropTable = async (selectedValue?: string) => {
       try {
         const body: AirdropTable = {
-          // wallet_address:  selectedValue ? selectedValue : "",
           ...(selectedValue ? {wallet_address: selectedValue} : {}),
           limit: 10,
-          offset: 0,
+          offset: currentOffset ?? 0,
         };
         // setLoading(true);
         const response = await AIRDROP_TRANSACTIONS(body);
         setAirdropUserList(response.data.history);
+        setOffset(response.data.total)
         // setLoading(false);
       } catch (error) {
         if (isAxiosError(error)) {
@@ -112,6 +114,8 @@ function ManageAirdropsPage(){
         }
       }
     };
+    console.log("offset:::", offset, currentOffset);
+    
 
     const handleAddressSearch = async (keyWords: string) => {
       setKeyWords(keyWords)
@@ -154,11 +158,22 @@ function ManageAirdropsPage(){
       setDropdownOpen(false);
       getAirdropTable(selectedValue);
     };
+
+    useEffect(() => {
+      getAirdropTable()
+    },[currentOffset])
+
+    const handlePageChange = (pageNumber: number) => {
+      // setCurrentPage(pageNumber)
+      const newOffset = (pageNumber - 1) * itemsPerPage;
+      setCurrentOffset(newOffset);
+      // console.log("pageNumber", pageNumber, newOffset);
+    }
     
     return (
       <>
       {loading ? <Loader/> : 
-        <div className="bg-tableBgColor h-full">
+        <div className="bg-tableBgColor  h-[92%]">
           {/* <Loader loading={isLoading} /> */}
           <div className="flex flex-row items-center justify-between mr-[64px] pt-5">
             <div className=" w-[300px]rounded p-6 shadow-md border-2 border-solid border-gray-400 border-lightprimary relative top-8 left-8 height-full text-center">
@@ -223,6 +238,9 @@ function ManageAirdropsPage(){
               data={airdropUserList}
               headers={headers}
               itemsPerPage={itemsPerPage}
+              totalCount={offset}
+              setCurrentOffset={setCurrentOffset}
+              handlePageChange={handlePageChange}
             />
           </div>
           {openAirdrop && <CustomAddAridrop handleOpenAddAirdrop={handleOpenAddAirdrop} getAirdropTable={getAirdropTable} matrix={matrix}/>}
