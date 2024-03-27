@@ -73,7 +73,7 @@ function ManageAirdropsPage(){
          label: "Description",
          sortable: true,
          render: (row: Row) => (
-            <div className="inline-block text-center max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis" onClick={() => console.log(row.description)}>
+            <div className="inline-block text-center max-w-[100%] overflow-hidden whitespace-nowrap text-ellipsis" onClick={() => console.log(row.description)} title={row && row.description}>
               {row && row.description}
             </div>
          )

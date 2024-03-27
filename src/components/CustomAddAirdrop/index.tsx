@@ -19,13 +19,11 @@ interface CustomAddAridropProps {
 
 
 export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}: CustomAddAridropProps) => {
-    // const [currentPage, setCurrentPage] = useState(1);
     const [details, setDetails] = useState<Detail[]>([]);
     const [loading, setLoading] = useState(false);
     const [searchAddress, setSearchAddress] = useState([]);
     const [selectAddress, setSelectAddress] = useState<string>();
     const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
-    // const [addressSet, setAddressSet] = useState<string[]>([]);
     const [keyWords, setKeyWords] = useState<string>();
     const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(null);
 
@@ -141,6 +139,12 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
         }
       })
     };
+
+    const handleRemoveDetail = (indexToRemove: number) => {
+      // Filter out the detail at the specified index
+      const updatedDetails = details.filter((_, index) => index !== indexToRemove);
+      setDetails(updatedDetails);
+    };
         
     return (
       <div className="fixed top-0 left-0 w-full h-[100%] flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -166,7 +170,6 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                   className={classNames(
                     "px-4 py-2 cursor-pointer text-labelColor text-headerText font-normal"
                   )}
-                //   onClick={() => sortData(header.key)}
                 >
                   <div className="flex items-center justify-center gap-1 w-full">
                     Wallet Address
@@ -185,11 +188,16 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                   className={classNames(
                     "px-4 py-2 cursor-pointer text-labelColor text-headerText font-normal"
                   )}
-                //   onClick={() => sortData(header.key)}
                 >
                   <div className="flex items-center justify-center gap-1 w-full">
                     Description
                   </div>
+                </th>
+                <th
+                  className={classNames(
+                    "px-4 py-2 cursor-pointer text-labelColor text-headerText font-normal w-[50px]"
+                  )}
+                >
                 </th>
                       </tr>
                     </thead>
@@ -203,8 +211,6 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                           <CustomInput
                           type="search"
                           value={detail.wallet_address}
-                          // value={detail == "" ? "" : typeof detail == "object" ? detail.walletAddress : detail}
-                          // value={typeof detail === "object" ? detail.walletAddress : detail}
                           onChange={(e) => {
                             handleAddressSearch(e.target.value, index);
                             handleInputChange(index, 'wallet_address', e.target.value)
@@ -249,8 +255,16 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                           }
                           />
                         </td>
-
-                        
+                        <td>
+                        <button
+                            className="text-red-500"
+                            onClick={() => handleRemoveDetail(index)}
+                        >
+                          <p className="text-2xl md:text-3xl lg:text-4xl font-semibold lg:text-[#202020] text-[#989898] w-9 h-9 flex items-center justify-center rounded bg-headerBg border-solid border-[#202020] hover:bg-[#202020] hover:text-white">
+                            -
+                          </p> 
+                        </button>
+                        </td>
                       </tr>
                     ))}
                     </tbody>
@@ -268,7 +282,6 @@ export const CustomAddAridrop = ({handleOpenAddAirdrop, getAirdropTable, matrix}
                   OR
                 </p>
                 <div className="my-5 mx-auto w-[60%]">
-                   {/* <CustomButton title="Upload a CSV" onClick={() => handleFileUpload} /> */}
                     <label htmlFor="csvUpload" className="cursor-pointer">
                       <p className={`py-2 px-4 text-white font-bold rounded hover:bg-[#131b42] bg-buttonBg
                             `}>
