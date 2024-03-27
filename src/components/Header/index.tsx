@@ -2,14 +2,17 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import DropMenu from "../DropMenu";
 import { useNavigate } from "react-router-dom";
-import { logoutRedux, store } from "@/store";
+import { logoutRedux } from "@/store";
+import { useSelector } from "react-redux";
 
 
 export const Header = () => {
     const [openPopup ,setOpenPopup] = useState(false);
     const { t } = useTranslation();
     const navigation = useNavigate(); 
-    const adminData = store.getState()?.UserData.userData;    
+    // const adminData = store.getState()?.UserData.userData;
+    // eslint-disable-next-line    
+    const adminData = useSelector((state:any) => state.UserData.userData);
 
     const handleOpenPopup = async () => {
         setOpenPopup(!openPopup);
@@ -31,7 +34,7 @@ export const Header = () => {
             default:
                 break;
         }
-    }
+    }    
 
     return (
         // <div className="bg-background text-primary h-[72px] border-b-[0.75px] border-b-lightprimary bg-background-blackmain bg-blur">
@@ -44,8 +47,9 @@ export const Header = () => {
                 onClick={handleOpenPopup}
             >
                 <div>
+                    
                     <img src={adminData?.avatar} alt="profile" className="w-[45px] h-[45px] rounded-full"/>
-                </div>
+                    </div>
                 <p className="group-hover:!text-text-secondary">{adminData?.user_name}</p>
             </div>
             {openPopup && 

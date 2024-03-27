@@ -116,8 +116,8 @@ export default function MyProfile() {
         try {
           setLoading(true);
           const data = await ADMIN_DETAIL();
-          console.log(data?.data);
-          store.dispatch(setUserData(data.data));
+          const imageUpdatePathData = {...data.data, avatar: data.data.avatar + `?random=${Date.now()}`};
+          store.dispatch(setUserData(imageUpdatePathData));
           setLoading(false);
         } catch (error) {
           if(isAxiosError(error)){
