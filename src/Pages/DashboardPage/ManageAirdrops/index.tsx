@@ -102,10 +102,10 @@ function ManageAirdropsPage(){
           limit: 10,
           offset: 0,
         };
-        setLoading(true);
+        // setLoading(true);
         const response = await AIRDROP_TRANSACTIONS(body);
         setAirdropUserList(response.data.history);
-        setLoading(false);
+        // setLoading(false);
       } catch (error) {
         if (isAxiosError(error)) {
           toast.error(error?.response?.data?.message);
