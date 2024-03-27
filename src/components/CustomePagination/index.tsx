@@ -4,9 +4,11 @@ interface CustomPaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (pageNumber: number) => void;
+  setCurrentPage: (page: number) => void;
 }
 
-const CustomPagination = ({ currentPage, totalPages, onPageChange }: CustomPaginationProps) => {
+const CustomPagination = ({ currentPage, totalPages, onPageChange, setCurrentPage }: CustomPaginationProps) => {
+  
   const pageNumbers = Array.from(
     { length: totalPages },
     (_, index) => index + 1
@@ -23,7 +25,10 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }: CustomPagin
               currentPage === pageNumber &&
                 "text-sideBarBg font-normal text-sm bg-headerBg rounded-numberBorder"
             )}
-            onClick={() => onPageChange(pageNumber)}
+            onClick={() => {onPageChange(pageNumber),
+            setCurrentPage(pageNumber);
+            }}
+
           >
             {pageNumber}
           </li>

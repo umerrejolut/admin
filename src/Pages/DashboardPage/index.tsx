@@ -49,7 +49,9 @@ function DashboardLayout({ children }: { children: ReactNode }) {
   // });
 
   return (
-    <div className=" flex min-w-full min-h-full">
+    <div className=" flex min-w-full 
+    min-h-[100vh]
+    ">
       <Sidebar items={routes} />
       <div className="content flex-1 ">
         <Header/>

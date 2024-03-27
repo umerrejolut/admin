@@ -131,7 +131,7 @@ export default {
         sans: ["Inter", "sans-serif"],
       },
       height:{
-        full: "calc(100vh - 67px)",
+        // full: "calc(100vh - 67px)",
       },
     },
   },

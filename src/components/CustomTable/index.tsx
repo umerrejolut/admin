@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import CustomPagination from "../CustomePagination";
 import { Row, RowData } from "@/Common/interface";
 // import CustomPagination from "../CustomPagination";
@@ -14,19 +14,22 @@ interface CustomTableProps {
     render?: (row: Row, index: number, sr: number) => JSX.Element;
   }[]; // Assuming headers are strings
   itemsPerPage: number;
+  totalCount: number;
+  setCurrentOffset: (offset: number) => void;
+  handlePageChange: (page: number) => void;
 }
 
-const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
+const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange}: CustomTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState<{ key: string | null, direction: string }>({ key: null, direction: "" });
+  // const [sortConfig, setSortConfig] = useState<{ key: string | null, direction: string }>({ key: null, direction: "" });
 
-  const sortData = (key: string) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
-  };
+  // const sortData = (key: string) => {
+  //   let direction = "asc";
+  //   if (sortConfig.key === key && sortConfig.direction === "asc") {
+  //     direction = "desc";
+  //   }
+  //   setSortConfig({ key, direction });
+  // };
   // Helper function to check if a string is a valid date in "yyyy-mm-ddThh:mm:ss" format
   // const isDateString = (str: any) => {
   //   const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
@@ -48,55 +51,62 @@ const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
   // }
 
 
-  const sortedData = useMemo(() => {
-    const sortedArray = [...data];
-    // if (sortConfig.key) {
-    //   sortedArray.sort((a, b) => {
-    //     const aValue = sortConfig.key.includes('.') ? getValueByNestedKey(a, sortConfig.key)
-    //       : a.hasOwnProperty(sortConfig.key) ? a[sortConfig.key] : '';
-    //     const bValue = sortConfig.key.includes('.') ? getValueByNestedKey(a, sortConfig.key)
-    //       : b.hasOwnProperty(sortConfig.key) ? b[sortConfig.key] : '';
-    //     // Handle boolean sorting
-    //     if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
-    //       return sortConfig.direction === 'asc' ? (aValue - bValue) : (bValue - aValue);
-    //     }
+  // const sortedData = useMemo(() => {
+  //   const sortedArray = [...data];
+  //   // if (sortConfig.key) {
+  //   //   sortedArray.sort((a, b) => {
+  //   //     const aValue = sortConfig.key.includes('.') ? getValueByNestedKey(a, sortConfig.key)
+  //   //       : a.hasOwnProperty(sortConfig.key) ? a[sortConfig.key] : '';
+  //   //     const bValue = sortConfig.key.includes('.') ? getValueByNestedKey(a, sortConfig.key)
+  //   //       : b.hasOwnProperty(sortConfig.key) ? b[sortConfig.key] : '';
+  //   //     // Handle boolean sorting
+  //   //     if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
+  //   //       return sortConfig.direction === 'asc' ? (aValue - bValue) : (bValue - aValue);
+  //   //     }
 
-    //     // Handle number sorting
-    //     if (typeof aValue === 'number' && typeof bValue === 'number') {
-    //       return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
-    //     }
+  //   //     // Handle number sorting
+  //   //     if (typeof aValue === 'number' && typeof bValue === 'number') {
+  //   //       return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
+  //   //     }
 
-    //     // Handle date sorting (assuming values are in "yyyy-mm-ddThh:mm:ss" format)
-    //     if (isDateString(aValue) && isDateString(bValue)) {
-    //       const dateA = new Date(aValue);
-    //       const dateB = new Date(bValue);
-    //       if (isNaN(dateA) || isNaN(dateB)) {
-    //         // Handle invalid date strings by comparing them as strings
-    //         return sortConfig.direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-    //       }
+  //   //     // Handle date sorting (assuming values are in "yyyy-mm-ddThh:mm:ss" format)
+  //   //     if (isDateString(aValue) && isDateString(bValue)) {
+  //   //       const dateA = new Date(aValue);
+  //   //       const dateB = new Date(bValue);
+  //   //       if (isNaN(dateA) || isNaN(dateB)) {
+  //   //         // Handle invalid date strings by comparing them as strings
+  //   //         return sortConfig.direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+  //   //       }
 
-    //       return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
-    //     }
-    //     // Default to string sorting
-    //     return sortConfig.direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-    //   });
-    // }
-    return sortedArray;
-  }, [data, sortConfig]);
+  //   //       return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
+  //   //     }
+  //   //     // Default to string sorting
+  //   //     return sortConfig.direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+  //   //   });
+  //   // }
+  //   return sortedArray;
+  // }, [data, sortConfig]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItemsToShow = sortedData.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItemsToShow = sortedData.slice(
+  //   indexOfFirstItem,
+  //   indexOfLastItem
+  // );
 
-  const totalPages = itemsPerPage ? Math.ceil(data.length / itemsPerPage) : 0;
+  // const totalPages = itemsPerPage ? Math.ceil(data.length / itemsPerPage) : 0;
+  const totalPages = itemsPerPage ? Math.ceil(totalCount / itemsPerPage) : 0;
 
-  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+  // const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+  // const handlePageChange = (pageNumber: number) => {
+  //   setCurrentPage(pageNumber)
+  //   const newOffset = (pageNumber - 1) * itemsPerPage;
+  //   setCurrentOffset(newOffset);
+  //   console.log("pageNumber", pageNumber, newOffset);
+  // }
   
   return (
-    <div className="bg-bgColor p-3 rounded-xl shadow-tablerShadow">
+    <div className="bg-bgColor p-3 rounded-xl shadow-tablerShadow min-h-[600px]">
       <div className="bg-white p-4">
         <table className="table-fixed w-full">
           <thead className="bg-headerBg h-[32px]">
@@ -110,7 +120,7 @@ const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
                       "w-20": header.key === "no",
                     }
                   )}
-                  onClick={() => sortData(header.key)}
+                  // onClick={() => sortData(header.key)}
                 >
                   <div className="flex items-center justify-center gap-1 w-full">
                     {header.label}
@@ -120,7 +130,7 @@ const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
             </tr>
           </thead>
           <tbody>
-            {currentItemsToShow.map((item, index) => (
+            {data.map((item, index) => (
                     <tr key={item.id}>
                     {headers.map((header) => (
                       <td
@@ -163,6 +173,7 @@ const CustomTable = ({ data, headers, itemsPerPage}: CustomTableProps) => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
+        setCurrentPage={setCurrentPage}
       />
     </div>
   );

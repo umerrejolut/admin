@@ -127,7 +127,7 @@ export default function MyProfile() {
       }
 
     return (
-        <div className="bg-tableBgColor h-full">
+        <div className="bg-tableBgColor h-[92%]">
             <p className="font-semibold text-[24px] text-headingColor p-5">My Profile</p>
             <div className="bg-bgColor p-3 rounded-xl shadow-tablerShadow">
                 <form onSubmit={formik.handleSubmit}>
