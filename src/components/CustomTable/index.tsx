@@ -176,12 +176,14 @@ const CustomTable = ({ data, headers, itemsPerPage, totalCount, handlePageChange
           </tbody>
         </table>
       </div>
+      {!message && 
       <CustomPagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
         setCurrentPage={setCurrentPage}
       />
+    }
     </div>
   );
 };
